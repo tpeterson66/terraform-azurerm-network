@@ -4,8 +4,6 @@ Terraform module repo for azure networking resources
 
 ## Resources to be added - WIP List
 
-
-- [x] Write the press release
 - [ ] Virutal Network -> subnet module
 - [ ] Subnet Module
 - [ ] Route Table -> route module
