@@ -7,12 +7,8 @@ variable "location" {
   description = "Azure location where network security group will be deployed"
   type        = string
 }
-variable "tags" {
-  type        = map(string)
-  description = "A map of the tags to use on the resources that are deployed with this module."
-}
 variable "resource_group_name" {
-  description = "The name of the resource group in which to create the network security group."
+  description = "The name of the resource group in which to create the network security rule."
   type        = string
 }
 variable "network_security_group_name" {

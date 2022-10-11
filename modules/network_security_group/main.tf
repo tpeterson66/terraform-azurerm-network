@@ -35,6 +35,22 @@ variable "security_rule_protocol" {
   description = "Network protocol this rule applies to. Possible values include Tcp, Udp, Icmp, Esp, Ah or * (which matches all)."
   type        = string
 }
+variable "security_rule_source_port_range" {
+  description = "Source Port or Range. Integer or range between 0 and 65535 or * to match any. This is required if source_port_ranges is not specified."
+  type        = string
+}
+variable "security_rule_destination_port_range" {
+  description = "Destination Port or Range. Integer or range between 0 and 65535 or * to match any. This is required if destination_port_ranges is not specified."
+  type        = string
+}
+variable "security_rule_source_address_prefix" {
+  description = "CIDR or source IP range or * to match any IP. Tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used. This is required if source_address_prefixes is not specified."
+  type        = string
+}
+variable "security_rule_destination_address_prefix" {
+  description = "CIDR or destination IP range or * to match any IP. Tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used. Besides, it also supports all available Service Tags like ‘Sql.WestEurope‘, ‘Storage.EastUS‘, etc. You can list the available service tags with the CLI: shell az network list-service-tags --location westcentralus"
+  type        = string
+}
 
 # resources
 
@@ -46,16 +62,18 @@ resource "azurerm_network_security_group" "this" {
   resource_group_name = var.resource_group_name
   tags                = var.tags
 
+# network security rule
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
   security_rule {
     name                       = var.security_rule_name
     priority                   = var.security_rule_priority
     direction                  = var.security_rule_direction
     access                     = var.security_ruke_access
     protocol                   = var.security_rule_protocol
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    source_port_range          = var.security_rule_source_port_range
+    destination_port_range     = var.security_rule_destination_port_range
+    source_address_prefix      = var.security_rule_source_address_prefix
+    destination_address_prefix = var.security_rule_destination_address_prefix
   }
 }
 

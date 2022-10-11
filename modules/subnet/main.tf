@@ -1,3 +1,4 @@
+# variables
 variable "name" {
     type = string
     description = "The name of the subnet"
@@ -20,17 +21,17 @@ variable "address_prefixes" {
 
 variable "service_endpoints" {
     type = list(string)
-    description = "list of service endpoints"
+    description = "List of service endpoints"
 }
 
 variable "enforce_private_link_endpoint_network_policies" {
     type = bool
-    description = "enforce private link policies"
+    description = "Enforce private link policies"
 }
 
 variable "enforce_private_link_service_network_policies" {
     type = bool
-    description = "enforce network policies"
+    description = "Enforce network policies"
 }
 
 variable "settings" {
@@ -43,7 +44,8 @@ variable "settings" {
     }
 }
 
-
+# resources
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
 resource "azurerm_subnet" "subnet" {
 
   name                                           = var.name
@@ -72,3 +74,5 @@ resource "azurerm_subnet" "subnet" {
   }
 
 }
+
+# outputs

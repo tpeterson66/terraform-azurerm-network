@@ -1,20 +1,20 @@
 # variables
 variable "name" {
-    type = string
-    description = "The name of the virtual network"
+  type        = string
+  description = "The name of the virtual network"
 }
 
 variable "location" {
-    type = string
-    description = "The Azure Region where the virutal network will be deployed"
+  type        = string
+  description = "The Azure Region where the virutal network will be deployed"
 }
 variable "resource_group_name" {
-    type = string
-    description = "The Azure Resource Group Name for management"
+  type        = string
+  description = "The Azure Resource Group Name for management"
 }
 variable "address_space" {
-    type = list(string)
-    description = "The address space for the virtaul network"
+  type        = list(string)
+  description = "The address space for the virtaul network"
 }
 variable "tags" {
   type        = map(string)
@@ -25,6 +25,8 @@ variable "tags" {
   }
 }
 
+# resources
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network
 resource "azurerm_virtual_network" "this" {
   name                = var.name
   location            = var.location
@@ -52,3 +54,5 @@ resource "azurerm_virtual_network" "this" {
     ignore_changes = [name]
   }
 }
+
+# outputs
