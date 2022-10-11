@@ -10,7 +10,7 @@ variable "resource_group_name" {
 
 variable "virtual_network_name" {
     type = string
-    description "Name of the virtual network"
+    description = "Name of the virtual network"
 }
 
 variable "address_prefixes" {
