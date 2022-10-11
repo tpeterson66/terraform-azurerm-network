@@ -1,7 +1,7 @@
 # variables
 variable "name" {
   description = "Specifies the Name of the Private link. Changing this forces a new resource to be created."
-  type = string
+  type        = string
 }
 variable "location" {
   description = "The supported Azure location where the resource exists. Changing this forces a new resource to be created."
