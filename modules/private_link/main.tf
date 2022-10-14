@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source = "hashicorp/azurerm"
+      version = "3.26.0"
+    }
+  }
+}
+
 # variables
 variable "name" {
   description = "Specifies the Name of the Private link. Changing this forces a new resource to be created."
