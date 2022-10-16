@@ -6,43 +6,39 @@ terraform {
     }
   }
 }
+provider "azurerm"  {
+  features {}
+}
 
 # variables
 variable "name" {
     type = string
     description = "The name of the subnet"
 }
-
 variable "resource_group_name" {
     type = string
     description = "The resource group for the resource"
 }
-
 variable "virtual_network_name" {
     type = string
     description = "Name of the virtual network"
 }
-
 variable "address_prefixes" {
     type = list(string)
     description = "The subnet address prefix"
 }
-
 variable "service_endpoints" {
     type = list(string)
     description = "List of service endpoints"
 }
-
 variable "enforce_private_link_endpoint_network_policies" {
     type = bool
     description = "Enforce private link policies"
 }
-
 variable "enforce_private_link_service_network_policies" {
     type = bool
     description = "Enforce network policies"
 }
-
 variable "settings" {
     default = {
         delegation = {

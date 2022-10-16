@@ -6,6 +6,9 @@ terraform {
     }
   }
 }
+provider "azurerm"  {
+  features {}
+}
 
 # variables
 variable "name" {
@@ -50,7 +53,6 @@ resource "azurerm_route_table" "this" {
   disable_bgp_route_propagation = var.disable_bgp_route_propagation
   tags                          = var.tags
 }
-
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route
 resource "azurerm_route" "this" {
   for_each               = { for route in var.routes : route.name => route }

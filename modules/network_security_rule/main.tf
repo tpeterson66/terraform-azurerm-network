@@ -6,6 +6,9 @@ terraform {
     }
   }
 }
+provider "azurerm"  {
+  features {}
+}
 
 # variables
 variable "name" {
@@ -58,7 +61,6 @@ variable "destination_address_prefix" {
 }
 
 # resources
-
 # network security rule
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
 resource "azurerm_network_security_rule" "this" {

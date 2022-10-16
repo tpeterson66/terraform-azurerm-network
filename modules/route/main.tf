@@ -6,6 +6,9 @@ terraform {
     }
   }
 }
+provider "azurerm"  {
+  features {}
+}
 
 # variables
 variable "name" {
@@ -38,7 +41,6 @@ variable "next_hop_type" {
 }
 
 # resources
-
 # route
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route
 resource "azurerm_route" "this" {

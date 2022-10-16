@@ -6,6 +6,9 @@ terraform {
     }
   }
 }
+provider "azurerm"  {
+  features {}
+}
 
 # variables
 variable "name" {
@@ -52,9 +55,7 @@ variable "primary"{
   type        = bool
 }
 
-
 # resources
-
 # public ip
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
 resource "azurerm_public_ip" "this" {
@@ -64,7 +65,6 @@ resource "azurerm_public_ip" "this" {
   resource_group_name = var.resource_group
   allocation_method   = var.allocation_method
 }
-
 # load balancer
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/lb
 resource "azurerm_lb" "this" {
@@ -78,7 +78,6 @@ resource "azurerm_lb" "this" {
     public_ip_address_id = azurerm_public_ip.this.id
   }
 }
-
 # private link service
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_link_service
 resource "azurerm_private_link_service" "this" {
@@ -96,7 +95,6 @@ resource "azurerm_private_link_service" "this" {
     azurerm_lb.this.frontend_ip_configuration.0.id,
   ]
 }
-
 
 # outputs
 output "id" {

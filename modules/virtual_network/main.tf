@@ -6,13 +6,15 @@ terraform {
     }
   }
 }
+provider "azurerm"  {
+  features {}
+}
 
 # variables
 variable "name" {
   type        = string
   description = "The name of the virtual network"
 }
-
 variable "location" {
   type        = string
   description = "The Azure Region where the virutal network will be deployed"

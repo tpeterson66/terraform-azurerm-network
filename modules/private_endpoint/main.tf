@@ -6,6 +6,9 @@ terraform {
     }
   }
 }
+provider "azurerm"  {
+  features {}
+}
 
 # variables
 variable "name" {
@@ -50,7 +53,6 @@ variable "private_dns_zone_ids" {
 }
 
 # resources
-
 # private endpoint
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_endpoint
 resource "azurerm_private_endpoint" "this" {
@@ -72,12 +74,10 @@ resource "azurerm_private_endpoint" "this" {
 }
 
 # outputs 
-
 output "id" {
   value       = azurerm_private_endpoint.this.id
   description = "The ID of the Private Endpoint."
 }
-
 output "name" {
   value       = azurerm_private_endpoint.this.name
   description = "The name of the Private Endpoint."

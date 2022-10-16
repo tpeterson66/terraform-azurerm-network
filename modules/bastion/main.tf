@@ -6,6 +6,9 @@ terraform {
     }
   }
 }
+provider "azurerm"  {
+  features {}
+}
 
 # variables
 variable "name" {
@@ -58,7 +61,6 @@ resource "azurerm_public_ip" "this" {
   allocation_method   = var.allocation_method
   sku                 = var.sku
 }
-
 # bastion host
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/bastion_host
 resource "azurerm_bastion_host" "this" {

@@ -6,6 +6,9 @@ terraform {
     }
   }
 }
+provider "azurerm"  {
+  features {}
+}
 
 # variables
 variable "name" {
@@ -62,7 +65,6 @@ variable "security_rule_destination_address_prefix" {
 }
 
 # resources
-
 # network security group
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group
 resource "azurerm_network_security_group" "this" {
@@ -70,7 +72,6 @@ resource "azurerm_network_security_group" "this" {
   location            = var.location
   resource_group_name = var.resource_group_name
   tags                = var.tags
-
 # network security rule
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
   security_rule {
