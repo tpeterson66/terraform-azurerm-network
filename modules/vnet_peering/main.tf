@@ -40,7 +40,7 @@ variable "virtual_network_2_name" {
   type        = string
 }
 variable "virtual_network_2_id" {
-  description = "The ID of virtual network 1 for which we are configuring peering."
+  description = "The ID of virtual network 2 for which we are configuring peering."
   type        = string
 }
 variable "virtual_network_2_resource_group_name" {

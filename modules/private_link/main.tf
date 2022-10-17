@@ -28,14 +28,14 @@ variable "public_ip_name" {
   type        = string
 }
 variable "public_ip_sku" {
-  description = "(Optional) The SKU of the Public IP. Accepted values are Basic and Standard. Defaults to Basic."
+  description = "(Optional) The SKU of the Public IP. Accepted values are [Basic] and Standard."
   type        = string
-  default     = "Basic"
+  default     = "Standard"
 }
 variable "allocation_method" {
   description = "(Required) Defines the allocation method for this IP address. Possible values are Static or Dynamic."
   type        = string
-  default     = "Dynamic"
+  default     = "Static"
 }
 variable "lb_name" {
   description = "Specifies the Name of the Load Balancer. Changing this forces a new resource to be created."
@@ -44,7 +44,7 @@ variable "lb_name" {
 variable "lb_sku"{
   description = "The SKU of the Azure Load Balancer. Accepted values are Basic, Standard and Gateway. Defaults to Basic."
   type        = string
-  default     = "Basic"
+  default     = "Standard"
 }
 variable "subnet_id" {
   description = "Private Link Subnet Id"
@@ -62,7 +62,7 @@ resource "azurerm_public_ip" "this" {
   name                = var.public_ip_name
   sku                 = var.public_ip_sku
   location            = var.location
-  resource_group_name = var.resource_group
+  resource_group_name = var.resource_group_name
   allocation_method   = var.allocation_method
 }
 # load balancer
@@ -71,7 +71,7 @@ resource "azurerm_lb" "this" {
   name                = var.lb_name
   sku                 = var.lb_sku
   location            = var.location
-  resource_group_name = var.resource_group
+  resource_group_name = var.resource_group_name
 
   frontend_ip_configuration {
     name                 = azurerm_public_ip.this.name
@@ -83,7 +83,7 @@ resource "azurerm_lb" "this" {
 resource "azurerm_private_link_service" "this" {
   name                = var.name
   location            = var.location
-  resource_group_name = var.resource_group
+  resource_group_name = var.resource_group_name
 
   nat_ip_configuration {
     name      = azurerm_public_ip.this.name

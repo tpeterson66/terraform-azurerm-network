@@ -27,7 +27,7 @@ variable "network_security_group_name" {
   description = " The name of the Network Security Group that we want to attach the rule to."
   type        = string
 }
-variable "rule_priority" {
+variable "priority" {
   description = "Specifies the priority of the rule. The value can be between 100 and 4096 and must be unique for each rule in the collection. (Lower priority number -> Higher priority)."
   type        = number
 }

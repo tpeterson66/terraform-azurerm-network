@@ -78,7 +78,7 @@ resource "azurerm_network_security_group" "this" {
     name                       = var.security_rule_name
     priority                   = var.security_rule_priority
     direction                  = var.security_rule_direction
-    access                     = var.security_ruke_access
+    access                     = var.security_rule_access
     protocol                   = var.security_rule_protocol
     source_port_range          = var.security_rule_source_port_range
     destination_port_range     = var.security_rule_destination_port_range

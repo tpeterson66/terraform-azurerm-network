@@ -32,7 +32,7 @@ variable "public_ip_name" {
   type        = string
 }
 variable "subnet_id" {
-  description = "Reference to a subnet in which this Bastion Host has been created."
+  description = "Reference to a subnet in which this Bastion Host has been created.The name must be exactly 'AzureBastionSubnet' to be used for the Azure Bastion Host resource"
   type        = string
 }
 variable "ip_configuration_name"{
@@ -47,7 +47,7 @@ variable "allocation_method"{
 variable "sku"{
   description = "The SKU of the Public IP. (Options: 1. [Basic] 2. Standard)."
   type        = string
-  default     = "Basic"
+  default     = "Standard"
 }
 
 # resources
