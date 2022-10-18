@@ -47,10 +47,26 @@ variable "enable_bgp" {
   default     = false
 }
 variable "ip_configuration_name" {
-  description = "Specifies the name of the IP configuration"
+  description = "Specifies the name of the IP configuration."
   type        = string
 }
-
+variable "subnet_id" {
+  description = "Specifies the ID of subnet to be used. Expecting to reference a gateway subnet with name GatewaySubnet"
+  type        = string
+}
+variable "public_ip_address_id" {
+  description = "Specifies the ID of public IP to be used."
+  type        = string
+}
+variable "private_ip_address_allocation_method"{
+  description = "Defines how the private IP address of the gateways virtual interface is assigned. Valid options are Static or [Dynamic]."
+  type        = string
+  default     = "Dynamic"
+}
+variable "address_space"{
+  description = "The address space out of which IP addresses for vpn clients will be taken. You can provide more than one address space, e.g. in CIDR notation."
+  type        = list(string)
+}
 # resources
 # virtual network gateway
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network_gateway
@@ -67,14 +83,14 @@ resource "azurerm_virtual_network_gateway" "this" {
   sku           = var.sku
 
   ip_configuration {
-    name                          = var.ip_configuration_name
-    public_ip_address_id          = azurerm_public_ip.example.id
-    private_ip_address_allocation = "Dynamic"
-    subnet_id                     = azurerm_subnet.example.id
+    name                                 = var.ip_configuration_name
+    public_ip_address_id                 = var.public_ip_address_id
+    private_ip_address_allocation_method = var.private_ip_address_allocation_method
+    subnet_id                            = var.subnet_id
   }
 
   vpn_client_configuration {
-    address_space = ["10.2.0.0/24"]
+    address_space = var.address_space
 
     root_certificate {
       name = "DigiCert-Federated-ID-Root-CA"
