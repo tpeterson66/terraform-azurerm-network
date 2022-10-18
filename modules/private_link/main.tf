@@ -98,5 +98,6 @@ resource "azurerm_private_link_service" "this" {
 
 # outputs
 output "id" {
-  value = azurerm_private_link_service.this.id
+  value       = azurerm_private_link_service.this.id
+  description = "Private Links Service ID"
 }

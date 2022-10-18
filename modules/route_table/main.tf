@@ -66,10 +66,10 @@ resource "azurerm_route" "this" {
 
 # outputs
 output "name" {
-  description = "Azure route table name post creation"
   value       = azurerm_route_table.this.name
+  description = "Azure route table name post creation"
 }
 output "id" {
-  description = "Azure route table ID post creation"
   value       = azurerm_route_table.this.id
+  description = "Azure route table ID post creation"
 }

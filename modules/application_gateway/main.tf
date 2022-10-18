@@ -179,15 +179,20 @@ resource "azurerm_application_gateway" "this" {
   tags = var.tags
 }
 
+# outputs
 output "id" {
-  value = azurerm_application_gateway.this.id
+  value       = azurerm_application_gateway.this.id
+  description = "Application Gateway ID"
 }
 output "principal_id" {
-  value = azurerm_user_assigned_identity.this.principal_id
+  value       = azurerm_user_assigned_identity.this.principal_id
+  description = "Principal ID of User Assigned Identity for Application Gateway"
 }
 output "public_ip_address" {
-  value = azurerm_public_ip.this.ip_address
+  value       = azurerm_public_ip.this.ip_address
+  description = "Public IP address for Application Gateway"
 }
 output "private_ip_address" {
-  value = azurerm_application_gateway.this.frontend_ip_configuration[1].private_ip_address
+  value       = azurerm_application_gateway.this.frontend_ip_configuration[1].private_ip_address
+  description = "Private IP address for Application Gateway"
 }

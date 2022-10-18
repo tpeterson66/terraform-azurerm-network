@@ -82,5 +82,8 @@ output "name" {
   value       = azurerm_private_endpoint.this.name
   description = "The name of the Private Endpoint."
 }
-
+output "private_dns_zone_group" {
+  value = azurerm_private_endpoint.this.private_dns_zone_group
+  description = "Private DNS Zone group details."
+}
 
