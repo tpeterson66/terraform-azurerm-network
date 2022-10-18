@@ -55,8 +55,16 @@ variable "allocation_method" {
   description = "Allocation method of public IP. Accepted values are Dynamic and Static. Public IP Standard SKUs require allocation_method to be set to Static."
   type        = string
 }
+variable "private_ip_address_allocation" {
+  description = "The allocation method used for the Private IP Address. Possible values are Dynamic and Static."
+  type        = string
+}
 variable "user_assigned_identity_name" {
   description = "The name of the user assigned identity. Changing this forces a new identity to be created."
+  type        = string
+}
+variable "rule_type" {
+  description = "The Type of Routing that should be used for this Rule. Possible values are [Basic] and PathBasedRouting."
   type        = string
 }
 variable "tags" {
@@ -107,7 +115,7 @@ resource "azurerm_application_gateway" "AppGw" {
   sku {
     name     = var.application_gateway_sku
     tier     = var.application_gateway_tier
-    capacity = 2
+    capacity = var.application_gateway_capacity
   }
 
   gateway_ip_configuration {
@@ -132,7 +140,7 @@ resource "azurerm_application_gateway" "AppGw" {
 
   frontend_ip_configuration {
     name                          = "${var.name}-private-feip"
-    private_ip_address_allocation = "Static"
+    private_ip_address_allocation = var.private_ip_address_allocation
     private_ip_address            = var.private_ip_address
     subnet_id                     = var.gateway_ip_configuration_subnet_id
   }
@@ -158,10 +166,11 @@ resource "azurerm_application_gateway" "AppGw" {
 
   request_routing_rule {
     name                       = "${var.name}-rqrt"
-    rule_type                  = "Basic"
+    rule_type                  = var.rule_type
     http_listener_name         = "${var.name}-httplstn"
     backend_address_pool_name  = "${var.name}-beap"
     backend_http_settings_name = "${var.name}-be-htst"
+    priority                   = 2
   }
 
   depends_on = [
