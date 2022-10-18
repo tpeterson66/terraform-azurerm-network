@@ -75,7 +75,7 @@ variable "tags" {
 # resources
 # public ip
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
-resource "azurerm_public_ip" "AppGw" {
+resource "azurerm_public_ip" "this" {
   name                = var.public_ip_name
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -85,14 +85,14 @@ resource "azurerm_public_ip" "AppGw" {
 }
 # user assigned identity
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity
-resource "azurerm_user_assigned_identity" "AppGw" {
+resource "azurerm_user_assigned_identity" "this" {
   name                = var.user_assigned_identity_name
   resource_group_name = var.resource_group_name
   location            = var.location
 }
 # aplication gateway
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_gateway
-resource "azurerm_application_gateway" "AppGw" {
+resource "azurerm_application_gateway" "this" {
   name                = var.name
   resource_group_name = var.resource_group_name
   location            = var.location
@@ -109,7 +109,7 @@ resource "azurerm_application_gateway" "AppGw" {
   }
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.AppGw.id]
+    identity_ids = [azurerm_user_assigned_identity.this.id]
   }
 
   sku {
@@ -135,7 +135,7 @@ resource "azurerm_application_gateway" "AppGw" {
 
   frontend_ip_configuration {
     name                 = "${var.name}-public-feip"
-    public_ip_address_id = azurerm_public_ip.AppGw.id
+    public_ip_address_id = azurerm_public_ip.this.id
   }
 
   frontend_ip_configuration {
@@ -174,20 +174,20 @@ resource "azurerm_application_gateway" "AppGw" {
   }
 
   depends_on = [
-    azurerm_public_ip.AppGw,
+    azurerm_public_ip.this,
   ]
   tags = var.tags
 }
 
 output "id" {
-  value = azurerm_application_gateway.AppGw.id
+  value = azurerm_application_gateway.this.id
 }
 output "principal_id" {
-  value = azurerm_user_assigned_identity.AppGw.principal_id
+  value = azurerm_user_assigned_identity.this.principal_id
 }
 output "public_ip_address" {
-  value = azurerm_public_ip.AppGw.ip_address
+  value = azurerm_public_ip.this.ip_address
 }
 output "private_ip_address" {
-  value = azurerm_application_gateway.AppGw.frontend_ip_configuration[1].private_ip_address
+  value = azurerm_application_gateway.this.frontend_ip_configuration[1].private_ip_address
 }
