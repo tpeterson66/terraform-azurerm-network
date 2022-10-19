@@ -39,16 +39,20 @@ variable "next_hop_type" {
   description = "The type of Azure hop the packet should be sent to. Possible values are VirtualNetworkGateway, VnetLocal, Internet, VirtualAppliance and None."
   type        = string
 }
-
+variable "next_hop_in_ip_address"{
+  description = "Contains the IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance."
+  type        = string
+}
 # resources
 # route
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route
 resource "azurerm_route" "this" {
-  name                = var.name
-  resource_group_name = var.resource_group_name
-  route_table_name    = var.route_table_name
-  address_prefix      = var.address_prefix
-  next_hop_type       = try(lower(var.next_hop_type), null) == "VirtualAppliance" ? var.next_hop_type : null
+  name                   = var.name
+  resource_group_name    = var.resource_group_name
+  route_table_name       = var.route_table_name
+  address_prefix         = var.address_prefix
+  next_hop_type          = var.next_hop_type
+  next_hop_in_ip_address = try(lower(each.value.next_hop_type), null) == "VirtualAppliance" ? each.value.next_hop_in_ip_address : null
 }
 
 # outputs
