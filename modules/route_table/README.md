@@ -19,7 +19,6 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_route.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/route) | resource |
 | [azurerm_route_table.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/route_table) | resource |
 
 ## Inputs
