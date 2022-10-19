@@ -52,7 +52,7 @@ resource "azurerm_route" "this" {
   route_table_name       = var.route_table_name
   address_prefix         = var.address_prefix
   next_hop_type          = var.next_hop_type
-  next_hop_in_ip_address = try(lower(each.value.next_hop_type), null) == "VirtualAppliance" ? each.value.next_hop_in_ip_address : null
+  next_hop_in_ip_address = try(lower(var.next_hop_type), null) == "VirtualAppliance" ? var.next_hop_in_ip_address : null
 }
 
 # outputs
