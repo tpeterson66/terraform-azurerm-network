@@ -67,3 +67,11 @@ resource "azurerm_virtual_network" "this" {
 }
 
 # outputs
+output "id" {
+  description = "Generated virtual network id"
+  value       = azurerm_virtual_network.this.id
+}
+output "name" {
+  description = "Generated virtual network name"
+  value       = azurerm_virtual_network.this.name
+}

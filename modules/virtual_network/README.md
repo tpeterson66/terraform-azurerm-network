@@ -33,5 +33,8 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_id"></a> [id](#output\_id) | Generated virtual network id |
+| <a name="output_name"></a> [name](#output\_name) | Generated virtual network name |
 <!-- END_TF_DOCS -->
