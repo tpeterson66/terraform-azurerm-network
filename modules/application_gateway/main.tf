@@ -71,7 +71,14 @@ variable "tags" {
   type        = map(string)
   description = "A map of the tags to use on the resources that are deployed with this module."
 }
-
+variable "create_identity"{
+  description = "If user assigned identity should be created. true or false."
+  type        = bool
+}
+variable "user_assigned_identity_id" {
+  type        = list(string)
+  description = "Specifies only one User Assigned Managed Identity ID to be assigned to this Application Gateway. Only applicable if create_identity is false."
+}
 # resources
 # public ip
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
@@ -86,6 +93,7 @@ resource "azurerm_public_ip" "this" {
 # user assigned identity
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity
 resource "azurerm_user_assigned_identity" "this" {
+  count               = var.create_identity ? 1 : 0
   name                = var.user_assigned_identity_name
   resource_group_name = var.resource_group_name
   location            = var.location
@@ -109,7 +117,7 @@ resource "azurerm_application_gateway" "this" {
   }
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.this.id]
+    identity_ids = var.create_identity ? [azurerm_user_assigned_identity.this[0].id] : var.user_assigned_identity_id 
   }
 
   sku {
@@ -184,8 +192,8 @@ output "id" {
   value       = azurerm_application_gateway.this.id
   description = "Application Gateway ID"
 }
-output "principal_id" {
-  value       = azurerm_user_assigned_identity.this.principal_id
+output "user_assigned_identity_id" {
+  value       = azurerm_application_gateway.this.identity[0].identity_ids
   description = "Principal ID of User Assigned Identity for Application Gateway"
 }
 output "public_ip_address" {
