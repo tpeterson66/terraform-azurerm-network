@@ -45,6 +45,7 @@ variable "idle_timeout_in_minutes" {
 variable "zones" {
   description = "Specifies a list of Availability Zones in which this NAT Gateway should be located. Changing this forces a new NAT Gateway to be created."
   type        = list
+  default     = null
 }
 
 # resources
