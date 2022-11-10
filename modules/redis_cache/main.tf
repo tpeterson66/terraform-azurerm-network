@@ -110,7 +110,11 @@ resource "azurerm_redis_cache" "this" {
 }
 
 # outputs
-output "redis_cache" {
+output "id" {
   value = azurerm_redis_cache.this.id
+  description = "ID of Azure Redis Cache."
+}
+output "name" {
+  value = azurerm_redis_cache.this.name
   description = "ID of Azure Redis Cache."
 }
