@@ -36,6 +36,5 @@ Terraform module repo for azure networking resources
 - [x] Monitor Diganostic Setting
 - [x] Monitor Metric Alert
 - [x] Service Plan
-- [x] Storage Account
 - [x] Gateway Load Balancer
 - [x] Redis Cache
