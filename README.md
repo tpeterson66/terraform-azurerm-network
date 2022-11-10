@@ -30,3 +30,12 @@ Terraform module repo for azure networking resources
 - [x] Web App Linux
 - [x] Web App Windows
 
+- [x] Function App Linux
+- [x] Function App Windows
+- [x] Monitor Action Group
+- [x] Monitor Diganostic Setting
+- [x] Monitor Metric Alert
+- [x] Service Plan
+- [x] Storage Account
+- [x] Gateway Load Balancer
+- [x] Redis Cache
