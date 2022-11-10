@@ -38,3 +38,4 @@ Terraform module repo for azure networking resources
 - [x] Service Plan
 - [x] Gateway Load Balancer
 - [x] Redis Cache
+- [x] ExpressRoute Circuit
