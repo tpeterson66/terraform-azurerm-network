@@ -1,0 +1,30 @@
+parameters:
+- name: workingDirectory
+  type: string
+
+jobs:
+  - job: "runCheckov"
+    displayName: "Checkov > Pull, run and publish results of Checkov scan"
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - bash: |
+          docker pull bridgecrew/checkov
+        workingDirectory: ${{ parameters.workingDirectory }}
+        displayName: "Pull > bridgecrew/checkov"
+      - bash: |
+          docker run \
+            --volume $(pwd):/terraform bridgecrew/checkov \
+            --directory /terraform \
+            --output junitxml \
+            --soft-fail > $(pwd)/CheckovReport.xml              
+        workingDirectory: ${{ parameters.workingDirectory }}
+        displayName: "Run > checkov"
+      - task: PublishTestResults@2
+        inputs:
+          testRunTitle: "Checkov Results"
+          failTaskOnFailedTests: false # change to true for production
+          testResultsFormat: "JUnit"
+          testResultsFiles: "CheckovReport.xml"
+          searchFolder: ${{ parameters.workingDirectory }}
+        displayName: "Publish > Checkov scan results"

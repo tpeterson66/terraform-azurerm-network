@@ -1,0 +1,85 @@
+# trigger: none
+pool:
+    vmImage: ubuntu-latest
+
+trigger:
+  - main
+  - auto/*
+    
+resources:
+  - repo: self
+    
+# variables:
+#   - name: environmentServiceName
+#     value: azsp-newinteractivemap-dev
+
+stages:
+  - stage: build
+    pool:
+      vmImage: ubuntu-latest
+    displayName: "Build and Test"
+    jobs:
+      - template: .azure/templates/checkov.yml
+        parameters:
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      - template: .azure/templates/npmBuild.yml
+      - template: .azure/templates/tfbuild.yml
+        parameters:
+          environment: 'dev'
+          dependsOn: 'runCheckov'
+          serviceConnection: 'CSPMigTest2'
+          privatePoolName: 'cspmigtest2-build-agents'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+          tfVersion: '1.1.8'
+          backendResourceGroupName: rg-cus-interactivemap-iac-dev
+          backendStorageAccountName: agsainteractivemapiacdev
+          backendContainerName: tfstate
+      - template: .azure/templates/infracost.yml
+        parameters:
+          environment: 'dev'
+          dependsOn: 'devTFBuild'
+
+  - stage: DevAutoTF
+    displayName: "Terraform - auto-apply"
+    condition: |
+      and (
+        succeeded(), 
+        eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+        eq(dependencies.build.outputs['devTFBuild.ProduceVars.ActionDelete'], 'false'),
+        in(dependencies.build.result, 'Succeeded')
+      )
+    dependsOn:
+      - "build"
+    jobs:
+      - template: .azure/templates/tfauto.yml
+        parameters:
+          environment: 'dev'
+          serviceConnection: 'azsp-newinteractivemap-dev'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+          tfVersion: '1.1.8'
+          backendResourceGroupName: rg-cus-interactivemap-iac-dev
+          backendStorageAccountName: agsainteractivemapiacdev
+          backendContainerName: tfstate
+
+  - stage: DevManualTF
+    pool: newinteractivemap-dev
+    displayName: "Terraform - Review Required"
+    condition: |
+      and (
+        succeeded(),
+         eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+        eq(dependencies.build.outputs['devTFBuild.ProduceVars.ActionDelete'], 'true'),
+        in(dependencies.build.result, 'Succeeded')
+      )
+    dependsOn:
+      - "build"
+    jobs:
+      - template: .azure/templates/tfmanual.yml
+        parameters:
+          environment: 'dev'
+          serviceConnection: 'azsp-newinteractivemap-dev'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+          tfVersion: '1.1.8'
+          backendResourceGroupName: rg-cus-interactivemap-iac-dev
+          backendStorageAccountName: agsainteractivemapiacdev
+          backendContainerName: tfstate
