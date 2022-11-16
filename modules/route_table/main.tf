@@ -60,7 +60,7 @@ resource "azurerm_route_table" "this" {
       name                   = route.value["name"]
       address_prefix         = route.value["address_prefix"]
       next_hop_type          = route.value["next_hop_type"]
-      next_hop_in_ip_address = try(lower(route.value["next_hop_type"]), null) == "VirtualAppliance" ? route.value["next_hop_in_ip_address"] : null
+      next_hop_in_ip_address = try(lower(route.value.next_hop_type), null) == "virtualappliance" ? route.value.next_hop_in_ip_address : null
     }
   }
 }
