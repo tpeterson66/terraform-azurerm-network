@@ -1,0 +1,59 @@
+parameters:
+- name: environment
+  type: string
+- name: tfVersion
+  type: string
+- name: workingDirectory
+  type: string
+- name: serviceConnection
+  type: string
+- name: backendResourceGroupName
+  type: string
+- name: backendStorageAccountName
+  type: string
+- name: backendContainerName
+  type: string
+
+jobs:
+  - job: waitForValidation
+    displayName: Wait for external validation
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+        notifyUsers: |
+          tom.peterson@coretek.com
+          brandon.wong@coretek.com
+        instructions: 'Please validate the build configuration and resume'
+        onTimeout: 'resume'
+  - job: ${{ parameters.environment}}TerraformJobs
+    displayName: "Terraform > install, init & plan"
+    dependsOn: "waitForValidation"
+    steps:
+      - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+        inputs:
+          terraformVersion: ${{ parameters.tfVersion }}
+        displayName: "Install > terraform"
+      - task: TerraformTaskV2@2
+        inputs:
+          command: "init"
+          workingDirectory: ${{  parameters.workingDirectory }}
+          backendType: "azurerm"
+          backendServiceArm: ${{ parameters.serviceConnection }}
+          ensureBackend: true
+          backendAzureRmResourceGroupName: ${{ parameters.backendResourceGroupName }}
+          backendAzureRmStorageAccountName: ${{ parameters.backendStorageAccountName }}
+          backendAzureRmContainerName: ${{ parameters.backendContainerName }}
+          backendAzureRmKey: ${{ parameters.environment }}.tfstate
+        displayName: "Run > terraform init"
+      - task: TerraformTaskV2@2
+        inputs:
+          command: "apply"
+          workingDirectory: ${{  parameters.workingDirectory }}
+          environmentServiceNameAzureRM: $(environmentServiceName)
+          publishPlanResults: "PlanResults"
+          commandOptions: "-var backendAzureRmResourceGroupName=${{ parameters.backendResourceGroupName }} -var backendAzureRmStorageAccountName=${{ parameters.backendStorageAccountName }} -var backendAzureRmContainerName=${{ parameters.backendContainerName }} -var backendAzureRmKey=${{ parameters.environment }}.tfstate -var-file=${{ parameters.workingDirectory }}/variables/${{ parameters.environment }}.auto.tfvars"
+        name: "apply"
+        displayName: "Run > terraform apply"
