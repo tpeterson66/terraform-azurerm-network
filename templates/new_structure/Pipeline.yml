@@ -1,0 +1,38 @@
+pool:
+    vmImage: ubuntu-latest
+
+trigger: none
+#  - main
+#  - auto/*
+    
+resources:
+  - repo: self
+
+stages:
+  - template: BuildStage.yml
+    parameters:
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      imageName: 'bridgecrew/checkov'
+      testResultsFileName: 'CheckovReport.xml' 
+      directoryCheckov: 'terraform'
+      skipCheck: none
+      dependsOn: 'runCheckov'
+      environment: 'dev'
+#        privatePoolName: 'cspmigtest2-build-agents'
+      tfVersion: '1.1.8'
+      serviceConnection: 'ahmed-test'
+      backendResourceGroupName: 'test'
+      backendStorageAccountName: 'testahmed123'
+      backendContainerName: 'ahmedtest123'
+      checkFormat: false
+      infracostDependsOn: 'devTFBuild'
+      infracostBudget: '4000'
+  - template: ApplyStage.yml
+    parameters:
+      environment: 'dev'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      tfVersion: '1.1.8'
+      serviceConnection: 'ahmed-test'
+      backendResourceGroupName: 'test'
+      backendStorageAccountName: 'testahmed123'
+      backendContainerName: 'ahmedtest123'

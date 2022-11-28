@@ -1,0 +1,51 @@
+parameters:
+- name: environment
+  type: string
+- name: tfVersion
+  type: string
+- name: workingDirectory
+  type: string
+- name: serviceConnection
+  type: string
+- name: backendResourceGroupName
+  type: string
+- name: backendStorageAccountName
+  type: string
+- name: backendContainerName
+  type: string
+
+jobs:
+  - deployment: ${{ parameters.environment}}TerraformJobs_auto
+    displayName: "Terraform > install, init & plan - auto"
+    environment: ${{ parameters.environment}}TerraformJobs_auto
+    condition: eq(variables.ActionDelete, 'false')
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+            - task: TerraformInstaller@0
+              inputs:
+                terraformVersion: ${{ parameters.tfVersion }}
+              displayName: "Install > terraform"
+            - task: TerraformTaskV3@3
+              inputs:
+                command: "init"
+                workingDirectory: ${{ parameters.workingDirectory }}
+                backendType: "azurerm"
+                backendServiceArm: ${{ parameters.serviceConnection }}
+                ensureBackend: true
+                backendAzureRmResourceGroupName: ${{ parameters.backendResourceGroupName }}
+                backendAzureRmStorageAccountName: ${{ parameters.backendStorageAccountName }}
+                backendAzureRmContainerName: ${{ parameters.backendContainerName }}
+                backendAzureRmKey: ${{ parameters.environment }}.tfstate
+              displayName: "Run > terraform init"
+            - task: TerraformTaskV3@3
+              inputs:
+                command: "apply"
+                workingDirectory: ${{ parameters.workingDirectory }}
+                environmentServiceNameAzureRM: ${{ parameters.serviceConnection }}
+                publishPlanResults: "PlanResults"
+      #          commandOptions: "-var backendAzureRmResourceGroupName=${{ parameters.backendResourceGroupName }} -var backendAzureRmStorageAccountName=${{ parameters.backendStorageAccountName }} -var backendAzureRmContainerName=${{ parameters.backendContainerName }} -var backendAzureRmKey=${{ parameters.environment }}.tfstate -var-file=${{ parameters.workingDirectory }}/variables/${{ parameters.environment }}.auto.tfvars"
+              name: "apply"
+              displayName: "Run > terraform apply"

@@ -1,0 +1,48 @@
+parameters:
+- name: environment
+  type: string
+- name: tfVersion
+  type: string
+- name: workingDirectory
+  type: string
+- name: serviceConnection
+  type: string
+- name: backendResourceGroupName
+  type: string
+- name: backendStorageAccountName
+  type: string
+- name: backendContainerName
+  type: string
+
+stages:
+- stage: apply
+  condition: |
+    and (
+      succeeded(),
+      in(dependencies.build.result, 'Succeeded')
+    )
+  dependsOn:
+    - "build"
+  displayName: "Apply"
+  variables:
+    ActionDelete: $[stageDependencies.build.${{ parameters.environment}}TFBuild.outputs['ProduceVars.ActionDelete']]
+  jobs:
+    - template: autoApply.yml
+      parameters:
+        environment: ${{ parameters.environment }}
+        workingDirectory: ${{ parameters.workingDirectory }}
+        tfVersion: ${{ parameters.tfVersion }}
+        serviceConnection: ${{ parameters.serviceConnection}}
+        backendResourceGroupName: ${{ parameters.backendResourceGroupName }}
+        backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
+        backendContainerName: ${{ parameters.backendContainerName }}
+
+    - template: manualApply.yml
+      parameters:
+        environment: ${{ parameters.environment }}
+        workingDirectory: ${{ parameters.workingDirectory }}
+        tfVersion: ${{ parameters.tfVersion }}
+        serviceConnection: ${{ parameters.serviceConnection}}
+        backendResourceGroupName: ${{ parameters.backendResourceGroupName }}
+        backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
+        backendContainerName: ${{ parameters.backendContainerName }}
