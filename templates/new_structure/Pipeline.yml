@@ -12,9 +12,11 @@ stages:
   - template: BuildStage.yml
     parameters:
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-      imageName: 'bridgecrew/checkov'
-      testResultsFileName: 'CheckovReport.xml' 
-      directoryCheckov: 'terraform'
+      checkovImageName: 'bridgecrew/checkov'
+      checkovTestResultsFileName: 'CheckovReport.xml' 
+      scanDirectory: 'terraform'
+      terrascanImageName: 'accurics/terrascan'
+      tfsecImageName: 'aquasec/tfsec'
       skipCheck: none
       dependsOn: 'runCheckov'
       environment: 'dev'

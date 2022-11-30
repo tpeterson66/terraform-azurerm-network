@@ -1,16 +1,22 @@
 parameters:
-- name: imageName
+- name: checkovImageName
   type: string
   default: 'bridgecrew/checkov'
-- name: directoryCheckov
+- name: scanDirectory
   type: string
   default: 'terraform'
+- name: terrascanImageName
+  type: string
+  default: 'accurics/terrascan'
+- name: tfsecImageName
+  type: string
+  default: 'aquasec/tfsec'
 - name: skipCheck
   type: string
   default: 'none'
 - name: workingDirectory
   type: string
-- name: testResultsFileName
+- name: checkovTestResultsFileName
   type: string
 - name: dependsOn
   type: string
@@ -42,9 +48,9 @@ stages:
     - template: checkov.yml
       parameters:
         workingDirectory: ${{ parameters.workingDirectory }}
-        imageName: ${{ parameters.imageName }}
-        testResultsFileName: ${{ parameters.testResultsFileName }}
-        directoryCheckov: ${{ parameters.directoryCheckov}}
+        checkovImageName: ${{ parameters.checkovImageName }}
+        checkovTestResultsFileName: ${{ parameters.checkovTestResultsFileName }}
+        scanDirectory: ${{ parameters.scanDirectory }}
         skipCheck: ${{ parameters.skipCheck }}
     - template: build.yml
       parameters:
@@ -66,3 +72,10 @@ stages:
     - template: tfsec.yml
       parameters:
         environment: ${{ parameters.environment }}
+        scanDirectory: ${{ parameters.scanDirectory }}
+        tfsecImageName: ${{ parameters.tfsecImageName }}
+    - template: terrascan.yml
+      parameters:
+        environment: ${{ parameters.environment }}
+        scanDirectory: ${{ parameters.scanDirectory  }}
+        terrascanImageName: ${{ parameters.terrascanImageName }}

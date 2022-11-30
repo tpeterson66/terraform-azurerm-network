@@ -1,6 +1,11 @@
 parameters:
 - name: environment
   type: string
+- name: tfsecImageName
+  type: string
+- name: scanDirectory
+  type: string
+
 jobs:
   - job: ${{ parameters.environment}}tfsec
     pool:
@@ -11,7 +16,9 @@ jobs:
           mkdir reports
           chmod a+w reports
 
-          docker run -v "$(pwd):/tf" -v "$(pwd)/reports:/reports" aquasec/tfsec /tf --format junit --out /reports/tfsec.xml -s
+          docker run -v "$(pwd):/${{ parameters.scanDirectory }}" -v "$(pwd)/reports:/reports" \
+          ${{ parameters.tfsecImageName }} /${{ parameters.scanDirectory }} \
+          --format junit --out /reports/tfsec.xml -s
 
         workingDirectory: $(System.DefaultWorkingDirectory)/
         displayName: "Run > tfsec"

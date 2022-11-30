@@ -1,0 +1,26 @@
+parameters:
+- name: environment
+  type: string
+- name: terrascanImageName
+  type: string
+- name: scanDirectory
+  type: string
+jobs:
+  - job: ${{ parameters.environment}}terrascan
+    pool:
+      vmImage: ubuntu-latest
+    displayName: "${{ parameters.environment }} Terrascan Analysis"
+    steps:
+      - bash: |
+          docker pull ${{ parameters.terrascanImageName }}
+          echo $(docker run --rm -t -v $(pwd):/${{ parameters.scanDirectory }} -w /${{ parameters.scanDirectory }} ${{ parameters.terrascanImageName }} scan -o junit-xml) > Terrascan-Report.xml
+        workingDirectory: $(System.DefaultWorkingDirectory)
+        displayName: "Run > Terrascan"
+      - task: PublishTestResults@2
+        displayName: "Publish > Terrascan scan results"
+        inputs:
+          testRunTitle: "Terrascan Results"
+          failTaskOnFailedTests: true
+          testResultsFormat: "JUnit"
+          testResultsFiles: "Terrascan-Report.xml"
+          searchFolder: "$(System.DefaultWorkingDirectory)"
