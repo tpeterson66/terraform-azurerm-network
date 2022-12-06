@@ -1,0 +1,51 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'add_checkov'
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  runCheckov:
+    uses: "./.github/workflows/checkov.yml"
+    with:
+      scanDirectory: terraform
+      checkovImageName: bridgecrew/checkov
+      checkovTestResultsFileName: CheckovReport.xml
+      skipCheck: none
+  runTerrascan:
+    uses: "./.github/workflows/terrascan.yml"
+    with:
+      scanDirectory: terraform
+      terrascanImageName: accurics/terrascan
+      environment: dev
+  runTfsec:
+    uses: "./.github/workflows/tfsec.yml"
+    with:
+      scanDirectory: terraform
+      tfsecImageName: aquasec/tfsec
+      environment: dev
+  runInfracost:
+    uses: "./.github/workflows/infracost.yml"
+    needs: build
+    with:
+      infracostBudget: 4000
+      environment: dev
+    secrets:
+      INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+  build:
+    uses: "./.github/workflows/build.yml"
+    with:
+      tfVersion: '1.1.8'
+      checkFormat: false
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }} 
+
+    

@@ -1,0 +1,36 @@
+name: runTfsec
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      tfsecImageName:
+        required: true
+        type: string
+      scanDirectory:
+        required: true
+        type: string
+
+jobs:
+  runTfsec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Pull > ${{ inputs.tfsecImageName }}
+        run: |
+          mkdir reports
+          chmod a+w reports
+
+          docker run -v "$(pwd):/${{ inputs.scanDirectory }}" -v "$(pwd)/reports:/reports" \
+          ${{ inputs.tfsecImageName }} /${{ inputs.scanDirectory }} \
+          --format junit --out /reports/tfsec.xml -s
+   
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          junit_files: "**/reports/tfsec.xml"
+

@@ -1,0 +1,46 @@
+name: runInfracost
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      infracostBudget:
+        required: true
+        type: number
+    secrets:
+      INFRACOST_API_KEY:
+        required: true
+
+jobs:
+  runInfracost:
+    runs-on: ubuntu-latest
+    env:
+      INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: plan
+      - name: Run > infracost
+        run: |
+          docker run -e INFRACOST_API_KEY=${{ secrets.INFRACOST_API_KEY }} \
+          -v $(pwd):/tf infracost/infracost breakdown \
+          --path /tf/terraform_plan.json --show-skipped
+
+          docker run -e INFRACOST_API_KEY='ico-cLwtdPvSgLhrgLMhz8oqp2SS9pkaH2ou' \
+          -v $(pwd):/tf -v $(pwd)/reports:/reports infracost/infracost breakdown \
+          --path /tf/terraform_plan.json --show-skipped --format json \
+          --out-file /reports/infracost.json
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Check Budget
+        run: |
+          python $GITHUB_WORKSPACE/checkBudget.py -budget ${{ inputs.infracostBudget }}
+        working-directory: './reports'         
+
+  
