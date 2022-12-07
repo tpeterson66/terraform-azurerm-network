@@ -1,14 +1,20 @@
-name: build
+name: apply
 
 on:
   workflow_call:
     inputs:
+      manualApproval:
+        required: true
+        type: boolean
+      approvers:
+        required: true
+        type: string
       tfVersion:
         required: true
         type: string
-      checkFormat:
+      environment:
         required: true
-        type: boolean
+        type: string
     secrets:
       ARM_CLIENT_ID:
         required: true
@@ -21,7 +27,7 @@ on:
 
 
 jobs:
-  build:
+  apply:
     runs-on: ubuntu-latest
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -46,35 +52,24 @@ jobs:
         with:
           creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
       
+      - if: ${{ inputs.manualApproval }}
+        name: Manual Approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: babicahmed
+          minimum-approvals: ${{ inputs.approvers }}
+          exclude-workflow-initiator-as-approver: false
+        
       - name: Terraform Init
         working-directory: "./terraform"
         run: |
           terraform init \
           -backend-config=storage_account_name=$TerraformBackendStorageAccount -backend-config=container_name=$TerraformBackendStorageContainer -backend-config=key=$Key -backend-config=resource_group_name=$TerraformBackendResourceGroup -backend-config=subscription_id="$ARM_SUBSCRIPTION_ID" -backend-config=tenant_id="$ARM_TENANT_ID" -backend-config=client_id="$ARM_CLIENT_ID" -backend-config=client_secret="$ARM_CLIENT_SECRET" 
-      
-      - if: ${{ inputs.checkFormat }}
-        name: Terraform Format
-        working-directory: "./terraform"
-        run: |
-          terraform fmt
-  
-      - name: Terraform Validate
-        working-directory: "./terraform"
-        run: |
-          terraform validate
 
-      - name: Terraform Plan
+      - name: Terraform Apply
         working-directory: "./terraform"
         run: |
-          terraform plan -input=false -no-color -out=plan.tfplan
+          terraform apply -auto-approve
 
-      - name: Terraform Publish
-        working-directory: "./terraform"
-        run: |
-          terraform show -json ./plan.tfplan > terraform_plan.json
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: plan
-          path: ./terraform/terraform_plan.json
       
