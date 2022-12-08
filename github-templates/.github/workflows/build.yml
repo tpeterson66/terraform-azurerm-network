@@ -9,6 +9,18 @@ on:
       checkFormat:
         required: true
         type: boolean
+      TerraformBackendStorageAccount:
+        required: true
+        type: string
+      TerraformBackendResourceGroup:
+        required: true
+        type: string
+      TerraformBackendStorageContainer:
+        required: true
+        type: string
+      Key:
+        required: true
+        type: string
     secrets:
       ARM_CLIENT_ID:
         required: true
@@ -28,10 +40,10 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      TerraformBackendStorageAccount: "testahmed123"
-      TerraformBackendResourceGroup: "test"
-      TerraformBackendStorageContainer: "test"    
-      Key: "terraformgithubexample.tfstate"
+      TerraformBackendStorageAccount: ${{ inputs.TerraformBackendStorageAccount }}
+      TerraformBackendResourceGroup: ${{ inputs.TerraformBackendResourceGroup }}
+      TerraformBackendStorageContainer: ${{ inputs.TerraformBackendStorageContainer }}   
+      Key: ${{ inputs.Key }}
     defaults:
       run:
         shell: bash

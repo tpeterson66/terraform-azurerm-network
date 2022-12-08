@@ -1,0 +1,45 @@
+name: Apply Stage
+
+on:
+  workflow_call:
+    inputs:
+      manualApproval:
+        required: true
+        type: boolean
+      approvers:
+        required: true
+        type: string
+      tfVersion:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+    secrets:
+      ARM_CLIENT_ID:
+        required: true
+      ARM_TENANT_ID :
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  apply:
+    uses: "./.github/workflows/apply.yml"
+    with:
+      manualApproval: ${{ false }}
+      approvers: ${{ inputs.approvers }}
+      tfVersion: ${{ inputs.tfVersion }}
+      environment: ${{ inputs.environment}}
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }} 
+
+    
