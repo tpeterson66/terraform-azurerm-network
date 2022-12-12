@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -54,23 +54,23 @@ variable "public_network_access_enabled" {
   type        = bool
   default     = true
 }
-variable "redis_configuration"{
+variable "redis_configuration" {
   description = "Redis configuration"
-    type        = list(object({
-      aof_backup_enabled              = bool
-      aof_storage_connection_string_0 = string
-      aof_storage_connection_string_1 = string
-      enable_authentication           = bool
-      maxmemory_reserved              = number
-      maxmemory_delta                 = number
-      maxmemory_policy                = number
-      maxfragmentationmemory_reserved = number
-      rdb_backup_enabled              = bool
-      rdb_backup_frequency            = number
-      rdb_backup_max_snapshot_count   = number
-      rdb_storage_connection_string   = string
-    }))
-   default = []
+  type = list(object({
+    aof_backup_enabled              = bool
+    aof_storage_connection_string_0 = string
+    aof_storage_connection_string_1 = string
+    enable_authentication           = bool
+    maxmemory_reserved              = number
+    maxmemory_delta                 = number
+    maxmemory_policy                = number
+    maxfragmentationmemory_reserved = number
+    rdb_backup_enabled              = bool
+    rdb_backup_frequency            = number
+    rdb_backup_max_snapshot_count   = number
+    rdb_storage_connection_string   = string
+  }))
+  default = []
 }
 
 # resources
@@ -87,8 +87,8 @@ resource "azurerm_redis_cache" "this" {
   public_network_access_enabled = var.public_network_access_enabled
   zones                         = var.sku_name == "Premium" ? var.zones : null
   tags                          = var.tags
-  
-  
+
+
   dynamic "redis_configuration" {
     for_each = var.redis_configuration
 
@@ -111,10 +111,10 @@ resource "azurerm_redis_cache" "this" {
 
 # outputs
 output "id" {
-  value = azurerm_redis_cache.this.id
+  value       = azurerm_redis_cache.this.id
   description = "ID of Azure Redis Cache."
 }
 output "name" {
-  value = azurerm_redis_cache.this.name
+  value       = azurerm_redis_cache.this.name
   description = "ID of Azure Redis Cache."
 }

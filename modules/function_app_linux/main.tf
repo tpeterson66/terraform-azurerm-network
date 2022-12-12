@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -43,35 +43,35 @@ variable "elastic_instance_minimum" {
   type        = number
   description = "The number of minimum instances for this function app. Only affects apps on the Premium plan."
 }
-variable "enable_diagnostics"{
-  type = bool
+variable "enable_diagnostics" {
+  type        = bool
   description = "Do you want to enable monitor diagnostic setting for this resource?"
 }
 variable "log_analytics_workspace_id" {
   description = "The name of the resource group in which to create the Storage account."
   type        = string
 }
-variable "enable_metric_alerts"{
+variable "enable_metric_alerts" {
   description = "Do you want to enable monitor metric alert for this resource?"
   type        = bool
 }
-variable "metric_alerts"{
+variable "metric_alerts" {
   description = "Monitor Metric alert variables to be passed"
-  type        = list(object({
-      name               = string
-      metric_namespace   = string
-      metric_name        = string
-      aggregation        = string
-      operator           = string
-      threshold          = string
-      dimension_name     = string
-      dimension_operator = string
-      dimension_values   = list(string)
-    }))
+  type = list(object({
+    name               = string
+    metric_namespace   = string
+    metric_name        = string
+    aggregation        = string
+    operator           = string
+    threshold          = string
+    dimension_name     = string
+    dimension_operator = string
+    dimension_values   = list(string)
+  }))
 }
-variable "action_group_id"{
+variable "action_group_id" {
   description = "The ID of action group to be used in monitoring alerts."
-  type = string
+  type        = string
 }
 
 # resources
@@ -107,7 +107,7 @@ module "monitor_diagnostic_setting" {
 # metric alert
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert
 module "monitor_metric_alerts" {
-  source = "../monitor_metric_alert"
+  source               = "../monitor_metric_alert"
   resource_group_name  = var.resource_group_name
   scopes               = [azurerm_linux_function_app.this.id]
   metric_alerts        = var.metric_alerts

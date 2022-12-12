@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -56,14 +56,14 @@ variable "bandwidth_in_gbps" {
   type        = string
   description = "Bandwidth of the Express Route Port in Gbps."
 }
-variable "encapsulation"{
+variable "encapsulation" {
   type        = string
   description = "The encapsulation method used for the Express Route Port. Possible values are: Dot1Q, QinQ."
 }
-variable "peering_type"{
-  type = string
+variable "peering_type" {
+  type        = string
   description = "The type of the ExpressRoute Circuit Peering. Acceptable values include [AzurePrivatePeering], AzurePublicPeering and MicrosoftPeering"
-  default = "AzurePrivatePeering"
+  default     = "AzurePrivatePeering"
 }
 variable "vlan_id" {
   type        = number
@@ -73,9 +73,9 @@ variable "peer_asn" {
   type        = number
   description = "The Either a 16-bit or a 32-bit ASN. Can either be public or private."
 }
-variable "ipv4_enabled"{
+variable "ipv4_enabled" {
   type        = bool
-  description = "A boolean value indicating whether the IPv4 peering is enabled. Defaults to true." 
+  description = "A boolean value indicating whether the IPv4 peering is enabled. Defaults to true."
   default     = true
 }
 variable "primary_peer_address_prefix" {

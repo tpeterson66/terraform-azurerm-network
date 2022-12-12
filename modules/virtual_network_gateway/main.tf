@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -58,12 +58,12 @@ variable "public_ip_address_id" {
   description = "Specifies the ID of public IP to be used."
   type        = string
 }
-variable "private_ip_address_allocation_method"{
+variable "private_ip_address_allocation_method" {
   description = "Defines how the private IP address of the gateways virtual interface is assigned. Valid options are Static or [Dynamic]."
   type        = string
   default     = "Dynamic"
 }
-variable "address_space"{
+variable "address_space" {
   description = "The address space out of which IP addresses for vpn clients will be taken. You can provide more than one address space, e.g. in CIDR notation."
   type        = list(string)
 }

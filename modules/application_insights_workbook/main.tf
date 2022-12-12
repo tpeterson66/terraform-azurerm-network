@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -31,7 +31,7 @@ variable "display_name" {
   type        = string
   description = "Specifies the user-defined name (display name) of the workbook."
 }
-variable "data_json"{
+variable "data_json" {
   type        = string
   description = "Path to workbook data json file"
 }

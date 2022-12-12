@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -71,7 +71,7 @@ variable "tags" {
   type        = map(string)
   description = "A map of the tags to use on the resources that are deployed with this module."
 }
-variable "create_identity"{
+variable "create_identity" {
   description = "If user assigned identity should be created. true or false."
   type        = bool
 }
@@ -117,7 +117,7 @@ resource "azurerm_application_gateway" "this" {
   }
   identity {
     type         = "UserAssigned"
-    identity_ids = var.create_identity ? [azurerm_user_assigned_identity.this[0].id] : var.user_assigned_identity_id 
+    identity_ids = var.create_identity ? [azurerm_user_assigned_identity.this[0].id] : var.user_assigned_identity_id
   }
 
   sku {

@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -41,7 +41,7 @@ variable "lb_name" {
   description = "Specifies the Name of the Load Balancer. Changing this forces a new resource to be created."
   type        = string
 }
-variable "lb_sku"{
+variable "lb_sku" {
   description = "The SKU of the Azure Load Balancer. Accepted values are Basic, Standard and Gateway. Defaults to Basic."
   type        = string
   default     = "Standard"
@@ -50,7 +50,7 @@ variable "subnet_id" {
   description = "Private Link Subnet Id"
   type        = string
 }
-variable "primary"{
+variable "primary" {
   description = "Is this is the Primary IP Configuration? Changing this forces a new resource to be created."
   type        = bool
 }

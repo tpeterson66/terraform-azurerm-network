@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -79,7 +79,7 @@ resource "azurerm_container_group" "this" {
   os_type             = var.os_type
   restart_policy      = var.restart_policy
   network_profile_id  = var.network_profile_id
-  
+
   container {
     name   = var.container_name
     image  = var.container_image
@@ -91,7 +91,7 @@ resource "azurerm_container_group" "this" {
       protocol = var.container_protocol
     }
   }
-  tags                = var.tags
+  tags = var.tags
 }
 
 # outputs

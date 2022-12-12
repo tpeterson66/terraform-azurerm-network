@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -32,7 +32,7 @@ variable "sku" {
   type        = string
   default     = "Standard"
 }
-variable "allocation_method"{
+variable "allocation_method" {
   description = "Allocation method for IP configuration. (Options: 1. [Static] 2. Dynamic)."
   type        = string
 }
@@ -78,18 +78,18 @@ resource "azurerm_lb_rule" "this" {
   protocol                       = "Tcp"
   frontend_port                  = 80
   backend_port                   = 80
-  backend_address_pool_ids        = [azurerm_lb_backend_address_pool.this.id]
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.this.id]
   frontend_ip_configuration_name = var.frontend_ip_configuration_name
   probe_id                       = azurerm_lb_probe.this.id
 }
 # lb probe
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/lb_probe
 resource "azurerm_lb_probe" "this" {
-  loadbalancer_id     = azurerm_lb.this.id
-  name                = "${var.name}-HealthProbe"
-  protocol            = "Http"
-  port                = 80
-  request_path        = "/"
+  loadbalancer_id = azurerm_lb.this.id
+  name            = "${var.name}-HealthProbe"
+  protocol        = "Http"
+  port            = 80
+  request_path    = "/"
 }
 
 # outputs
