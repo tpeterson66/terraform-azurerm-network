@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -51,7 +51,7 @@ resource "azurerm_mssql_server" "this" {
   administrator_login          = var.administrator_login
   administrator_login_password = var.administrator_login_password
   tags                         = var.tags
-  
+
 }
 
 # outputs

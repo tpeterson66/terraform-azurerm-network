@@ -1,0 +1,32 @@
+name: runTerrascan
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      terrascanImageName:
+        required: true
+        type: string
+      scanDirectory:
+        required: true
+        type: string
+
+jobs:
+  runTerrascan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run > Terrascan
+        run: |
+          docker pull ${{ inputs.terrascanImageName }}
+          echo $(docker run --rm -t -v $(pwd):/${{ inputs.scanDirectory }} -w /${{ inputs.scanDirectory }} ${{ inputs.terrascanImageName }} scan -o junit-xml) > Terrascan-Report.xml
+   
+      - name: Publish > Terrascan scan results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          junit_files: "**/Terrascan-Report.xml"
+

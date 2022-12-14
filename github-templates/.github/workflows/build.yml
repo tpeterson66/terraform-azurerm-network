@@ -1,0 +1,92 @@
+name: build
+
+on:
+  workflow_call:
+    inputs:
+      tfVersion:
+        required: true
+        type: string
+      checkFormat:
+        required: true
+        type: boolean
+      TerraformBackendStorageAccount:
+        required: true
+        type: string
+      TerraformBackendResourceGroup:
+        required: true
+        type: string
+      TerraformBackendStorageContainer:
+        required: true
+        type: string
+      Key:
+        required: true
+        type: string
+    secrets:
+      ARM_CLIENT_ID:
+        required: true
+      ARM_TENANT_ID :
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      TerraformBackendStorageAccount: ${{ inputs.TerraformBackendStorageAccount }}
+      TerraformBackendResourceGroup: ${{ inputs.TerraformBackendResourceGroup }}
+      TerraformBackendStorageContainer: ${{ inputs.TerraformBackendStorageContainer }}   
+      Key: ${{ inputs.Key }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - uses: Azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
+      
+      - name: Terraform Init
+        working-directory: "./terraform"
+        run: |
+          terraform init \
+          -backend-config=storage_account_name=$TerraformBackendStorageAccount -backend-config=container_name=$TerraformBackendStorageContainer -backend-config=key=$Key -backend-config=resource_group_name=$TerraformBackendResourceGroup -backend-config=subscription_id="$ARM_SUBSCRIPTION_ID" -backend-config=tenant_id="$ARM_TENANT_ID" -backend-config=client_id="$ARM_CLIENT_ID" -backend-config=client_secret="$ARM_CLIENT_SECRET" 
+      
+      - if: ${{ inputs.checkFormat }}
+        name: Terraform Format
+        working-directory: "./terraform"
+        run: |
+          terraform fmt
+  
+      - name: Terraform Validate
+        working-directory: "./terraform"
+        run: |
+          terraform validate
+
+      - name: Terraform Plan
+        working-directory: "./terraform"
+        run: |
+          terraform plan -input=false -no-color -out=plan.tfplan
+
+      - name: Terraform Publish
+        working-directory: "./terraform"
+        run: |
+          terraform show -json ./plan.tfplan > terraform_plan.json
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: plan
+          path: ./terraform/terraform_plan.json
+      

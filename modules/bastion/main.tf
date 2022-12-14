@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -35,16 +35,16 @@ variable "subnet_id" {
   description = "Reference to a subnet in which this Bastion Host has been created.The name must be exactly 'AzureBastionSubnet' to be used for the Azure Bastion Host resource"
   type        = string
 }
-variable "ip_configuration_name"{
+variable "ip_configuration_name" {
   description = "A name for ip configuration"
   type        = string
 }
-variable "allocation_method"{
+variable "allocation_method" {
   description = "Allocation method for IP configuration. (Options: 1. [Static] 2. Dynamic)."
   type        = string
   default     = "Static"
 }
-variable "sku"{
+variable "sku" {
   description = "The SKU of the Public IP. (Options: 1. [Basic] 2. Standard)."
   type        = string
   default     = "Standard"

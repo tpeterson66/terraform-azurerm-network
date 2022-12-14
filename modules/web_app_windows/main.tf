@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -42,7 +42,7 @@ variable "firewall_ip" {
 variable "app_settings" {
   type        = map(string)
   description = "A map of key-value pairs of App Settings."
-  default = {}
+  default     = {}
 }
 variable "app_command_line" {
   type        = string
@@ -51,7 +51,7 @@ variable "app_command_line" {
 variable "connection_strings" {
   description = "Optional Connection Strings"
   default     = []
-  type        = list(object({
+  type = list(object({
     name  = string
     type  = string
     value = string
@@ -73,19 +73,19 @@ resource "azurerm_windows_web_app" "this" {
     health_check_path = "/app/"
     app_command_line  = var.app_command_line
     ip_restriction {
-      name           = "allowFrontDoorThroughFirewall"
-      ip_address     = "${var.firewall_ip}/32"
-      action         = "Allow"
-      priority       = "4"
-       headers {
-         x_azure_fdid = [var.header_frontdoor_id]
-       }
-     }
+      name       = "allowFrontDoorThroughFirewall"
+      ip_address = "${var.firewall_ip}/32"
+      action     = "Allow"
+      priority   = "4"
+      headers {
+        x_azure_fdid = [var.header_frontdoor_id]
+      }
+    }
     ip_restriction {
-      name           = "denyAll"
-      ip_address     = "0.0.0.0/0"
-      action         = "Deny"
-      priority       = "5"
+      name       = "denyAll"
+      ip_address = "0.0.0.0/0"
+      action     = "Deny"
+      priority   = "5"
     }
   }
   dynamic "connection_string" {

@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -39,7 +39,7 @@ variable "next_hop_type" {
   description = "The type of Azure hop the packet should be sent to. Possible values are VirtualNetworkGateway, VnetLocal, Internet, VirtualAppliance and None."
   type        = string
 }
-variable "next_hop_in_ip_address"{
+variable "next_hop_in_ip_address" {
   description = "Contains the IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance."
   type        = string
 }

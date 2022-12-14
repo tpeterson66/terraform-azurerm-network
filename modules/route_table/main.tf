@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -33,10 +33,10 @@ variable "disable_bgp_route_propagation" {
   default     = false
 }
 variable "routes" {
-  type        = list(object({
-    name           = string # The name for the route
-    address_prefix = string # The destination to which the route applies. Can be CIDR (such as 10.1.0.0/16) or Azure Service Tag (such as ApiManagement, AzureBackup or AzureMonitor) format.
-    next_hop_type  = string # The type of Azure hop the packet should be sent to. Possible values are VirtualNetworkGateway, VnetLocal, Internet, VirtualAppliance and None.
+  type = list(object({
+    name                   = string # The name for the route
+    address_prefix         = string # The destination to which the route applies. Can be CIDR (such as 10.1.0.0/16) or Azure Service Tag (such as ApiManagement, AzureBackup or AzureMonitor) format.
+    next_hop_type          = string # The type of Azure hop the packet should be sent to. Possible values are VirtualNetworkGateway, VnetLocal, Internet, VirtualAppliance and None.
     next_hop_in_ip_address = string # Contains the IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance.
   }))
   description = "Routes to be added to the route table"
@@ -56,11 +56,11 @@ resource "azurerm_route_table" "this" {
   # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route
   dynamic "route" {
     for_each = var.routes
-    content{
+    content {
       name                   = route.value["name"]
       address_prefix         = route.value["address_prefix"]
       next_hop_type          = route.value["next_hop_type"]
-      next_hop_in_ip_address = try(lower(route.value["next_hop_type"]), null) == "VirtualAppliance" ? route.value["next_hop_in_ip_address"] : null
+      next_hop_in_ip_address = try(lower(route.value.next_hop_type), null) == "virtualappliance" ? route.value.next_hop_in_ip_address : null
     }
   }
 }

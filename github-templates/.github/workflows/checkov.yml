@@ -1,0 +1,42 @@
+name: runCheckov
+
+on:
+  workflow_call:
+    inputs:
+      scanDirectory:
+        required: true
+        type: string
+      checkovImageName:
+        required: true
+        type: string
+      checkovTestResultsFileName:
+        required: true
+        type: string
+      skipCheck:
+        required: true
+        type: string
+
+jobs:
+  runCheckov:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Pull > bridgecrew/checkov
+        run: |
+          docker pull ${{ inputs.checkovImageName }}
+
+      - name: Run > checkov
+        run: |
+          docker run \
+            --volume $(pwd):/${{ inputs.scanDirectory }} ${{ inputs.checkovImageName }} \
+            --directory /${{ inputs.scanDirectory }} \
+            --output junitxml \
+            --soft-fail > $(pwd)/${{ inputs.checkovTestResultsFileName }} \
+            --skip-check ${{ inputs.skipCheck }}     
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          junit_files: "**/*.xml"
+

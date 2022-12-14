@@ -1,0 +1,47 @@
+name: Build Test and Apply Actions
+
+on:
+  push:
+    branches:
+      - stage
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  BuildStage:
+    uses: "./.github/workflows/BuildStage.yml"
+    with:
+      scanDirectory: terraform
+      checkovImageName: bridgecrew/checkov
+      checkovTestResultsFileName: CheckovReport.xml
+      skipCheck: none
+      terrascanImageName: accurics/terrascan
+      environment: dev
+      tfsecImageName: aquasec/tfsec
+      infracostBudget: 4000
+      tfVersion: '1.1.8'
+      checkFormat: ${{ false }}
+      TerraformBackendStorageAccount: "testahmed123"
+      TerraformBackendResourceGroup: "test"
+      TerraformBackendStorageContainer: "test"    
+      Key: "terraformgithubexample.tfstate"
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }} 
+      INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+  ApplyStage:
+    uses: "./.github/workflows/ApplyStage.yml"
+    needs: BuildStage
+    with:
+      manualApproval: ${{ false }}
+      approvers: babichamed
+      tfVersion: '1.1.8'
+      environment: dev
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }} 

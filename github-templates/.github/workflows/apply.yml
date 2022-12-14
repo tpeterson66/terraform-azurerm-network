@@ -1,0 +1,75 @@
+name: apply
+
+on:
+  workflow_call:
+    inputs:
+      manualApproval:
+        required: true
+        type: boolean
+      approvers:
+        required: true
+        type: string
+      tfVersion:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+    secrets:
+      ARM_CLIENT_ID:
+        required: true
+      ARM_TENANT_ID :
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      TerraformBackendStorageAccount: "testahmed123"
+      TerraformBackendResourceGroup: "test"
+      TerraformBackendStorageContainer: "test"    
+      Key: "terraformgithubexample.tfstate"
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - uses: Azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
+      
+      - if: ${{ inputs.manualApproval }}
+        name: Manual Approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: babicahmed
+          minimum-approvals: ${{ inputs.approvers }}
+          exclude-workflow-initiator-as-approver: false
+        
+      - name: Terraform Init
+        working-directory: "./terraform"
+        run: |
+          terraform init \
+          -backend-config=storage_account_name=$TerraformBackendStorageAccount -backend-config=container_name=$TerraformBackendStorageContainer -backend-config=key=$Key -backend-config=resource_group_name=$TerraformBackendResourceGroup -backend-config=subscription_id="$ARM_SUBSCRIPTION_ID" -backend-config=tenant_id="$ARM_TENANT_ID" -backend-config=client_id="$ARM_CLIENT_ID" -backend-config=client_secret="$ARM_CLIENT_SECRET" 
+
+      - name: Terraform Apply
+        working-directory: "./terraform"
+        run: |
+          terraform apply -auto-approve
+
+      
