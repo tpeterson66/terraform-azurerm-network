@@ -1,7 +1,7 @@
 # The version of the configuration file format
 version: 1
 # Your module version - must be changed to release a new version
-module_version: 0.1.4
+module_version: 0.1.5
 
 # Any default settings that should be used for all test cases
 test_defaults:
@@ -9,9 +9,10 @@ test_defaults:
 
 # The set of tests to run to verify your module works correctly
 tests:
-  - name: Test the module with 0.12.7
+  - name: Test the module with 1.3.6
     terraform_version: 1.3.6
-    environment:
-      TF_VAR_name: spacelift-module-route-table
-      TF_VAR_location: "eastus"
-      TF_VAR_resource_group_name: spacelift-modules
+    # environment:
+      # TF_VAR_name: spacelift-module-route-table
+      # TF_VAR_location: "eastus"
+      # TF_VAR_resource_group_name: spacelift-modules
+    project_root: test
