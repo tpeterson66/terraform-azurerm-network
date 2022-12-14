@@ -1,0 +1,104 @@
+name: Build and Test Stage
+
+on:
+  workflow_call:
+    inputs:
+      tfVersion:
+        required: true
+        type: string
+      checkFormat:
+        required: true
+        type: boolean
+      scanDirectory:
+        required: true
+        type: string
+      checkovImageName:
+        required: true
+        type: string
+      checkovTestResultsFileName:
+        required: true
+        type: string
+      skipCheck:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+      infracostBudget:
+        required: true
+        type: number
+      terrascanImageName:
+        required: true
+        type: string
+      tfsecImageName:
+        required: true
+        type: string
+      TerraformBackendStorageAccount:
+        required: true
+        type: string
+      TerraformBackendResourceGroup:
+        required: true
+        type: string
+      TerraformBackendStorageContainer:
+        required: true
+        type: string
+      Key:
+        required: true
+        type: string
+    secrets:
+      ARM_CLIENT_ID:
+        required: true
+      ARM_TENANT_ID :
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+      INFRACOST_API_KEY:
+        required: true
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  runCheckov:
+    uses: "./.github/workflows/checkov.yml"
+    with:
+      scanDirectory: ${{ inputs.scanDirectory }}
+      checkovImageName: ${{ inputs.checkovImageName }}
+      checkovTestResultsFileName: ${{ inputs.checkovTestResultsFileName }}
+      skipCheck: ${{ inputs.skipCheck }}
+  runTerrascan:
+    uses: "./.github/workflows/terrascan.yml"
+    with:
+      scanDirectory: ${{ inputs.scanDirectory }}
+      terrascanImageName: ${{ inputs.terrascanImageName }}
+      environment: ${{ inputs.environment}}
+  runTfsec:
+    uses: "./.github/workflows/tfsec.yml"
+    with:
+      scanDirectory: ${{ inputs.scanDirectory}}
+      tfsecImageName: ${{ inputs.tfsecImageName }}
+      environment: ${{ inputs.environment }}
+  runInfracost:
+    uses: "./.github/workflows/infracost.yml"
+    needs: build
+    with:
+      infracostBudget: ${{ inputs.infracostBudget }}
+      environment: ${{ inputs.environment }}
+    secrets:
+      INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+  build:
+    uses: "./.github/workflows/build.yml"
+    with:
+      tfVersion: ${{ inputs.tfVersion }}
+      checkFormat: ${{ inputs.checkFormat }}
+      TerraformBackendStorageAccount: ${{ inputs.TerraformBackendStorageAccount }}
+      TerraformBackendResourceGroup: ${{ inputs.TerraformBackendResourceGroup }}
+      TerraformBackendStorageContainer: ${{ inputs.TerraformBackendStorageContainer }}   
+      Key: ${{ inputs.Key }}
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }} 
