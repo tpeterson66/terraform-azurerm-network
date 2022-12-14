@@ -39,12 +39,12 @@ module "route_table_routes" {
     next_hop_in_ip_address = null
     }, {
     name                   = "Internet"
-    address_prefix         = "1.2.3.4/30"
+    address_prefix         = "1.2.3.4/32"
     next_hop_type          = "Internet"
     next_hop_in_ip_address = null
     }, {
     name                   = "VirtualAppliance"
-    address_prefix         = "4.5.6.7/30"
+    address_prefix         = "4.5.6.7/32"
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = "10.20.30.40"
     }, {
