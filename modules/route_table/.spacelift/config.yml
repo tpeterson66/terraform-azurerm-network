@@ -9,8 +9,8 @@ test_defaults:
 
 # The set of tests to run to verify your module works correctly
 tests:
-  - name: Test the module with 1.3.7
-    terraform_version: 1.3.7
+  - name: Test the module with 1.3.6
+    terraform_version: 1.3.6
     # environment:
       # TF_VAR_name: spacelift-module-route-table
       # TF_VAR_location: "eastus"
