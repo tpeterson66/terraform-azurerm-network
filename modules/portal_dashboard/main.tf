@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -38,16 +38,16 @@ variable "dashboards" {
 # portal_dashboard
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/portal_dashboard
 resource "azurerm_portal_dashboard" "this" {
-  for_each = { for d in var.dashboards : d.name => d }
-  name                = each.key
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  tags                = var.tags
+  for_each             = { for d in var.dashboards : d.name => d }
+  name                 = each.key
+  resource_group_name  = var.resource_group_name
+  location             = var.location
+  tags                 = var.tags
   dashboard_properties = templatefile(each.value.tpl_file, each.value.variables)
 }
 
 # outputs
 output "ids" {
-  value       = { for k, v in azurerm_portal_dashboard.this: k => v.id }
+  value       = { for k, v in azurerm_portal_dashboard.this : k => v.id }
   description = "The IDs of Azure Portal Dashboards."
 }

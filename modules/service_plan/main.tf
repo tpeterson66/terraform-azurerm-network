@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -56,10 +56,10 @@ resource "azurerm_service_plan" "this" {
 
 # outputs
 output "id" {
-    value       = azurerm_service_plan.this.id
-    description = "Azure App Service Plan ID"
+  value       = azurerm_service_plan.this.id
+  description = "Azure App Service Plan ID"
 }
 output "name" {
-    value       = azurerm_service_plan.this.name
-    description = "Azure App Service Plan name"
+  value       = azurerm_service_plan.this.name
+  description = "Azure App Service Plan name"
 }

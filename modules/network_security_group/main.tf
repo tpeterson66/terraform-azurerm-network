@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -28,7 +28,7 @@ variable "resource_group_name" {
   type        = string
 }
 variable "security_rules" {
-  type        = list(object({
+  type = list(object({
     name                       = string # The name for the security rule
     priority                   = number # Specifies the priority of the rule. The value can be between 100 and 4096 and must be unique for each rule in the collection. (Lower priority number -> Higher priority).
     direction                  = string # The direction specifies if rule will be evaluated on incoming or outgoing traffic. Possible values are Inbound and Outbound.
@@ -51,8 +51,8 @@ resource "azurerm_network_security_group" "this" {
   location            = var.location
   resource_group_name = var.resource_group_name
   tags                = var.tags
-# network security rule
-# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
+  # network security rule
+  # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule
   dynamic "security_rule" {
     for_each = var.security_rules
     content {

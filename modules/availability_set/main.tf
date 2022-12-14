@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -40,10 +40,10 @@ variable "platform_fault_domain_count" {
 # availability set
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/availability_set
 resource "azurerm_availability_set" "this" {
-  name                = var.name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  tags                = var.tags
+  name                         = var.name
+  location                     = var.location
+  resource_group_name          = var.resource_group_name
+  tags                         = var.tags
   platform_update_domain_count = var.platform_update_domain_count
   platform_fault_domain_count  = var.platform_fault_domain_count
 }

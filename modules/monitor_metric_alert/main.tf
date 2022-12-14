@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -23,21 +23,21 @@ variable "action_group_id" {
   description = "Specifies the ID of the Action group"
   type        = string
 }
-variable "metric_alerts"{
+variable "metric_alerts" {
   description = "Monitor Metric alert variables to be passed"
-  type        = list(object({
-      name               = string
-      metric_namespace   = string
-      metric_name        = string
-      aggregation        = string
-      operator           = string
-      threshold          = string
-      dimension_name     = string
-      dimension_operator = string
-      dimension_values   = list(string)
-    }))
+  type = list(object({
+    name               = string
+    metric_namespace   = string
+    metric_name        = string
+    aggregation        = string
+    operator           = string
+    threshold          = string
+    dimension_name     = string
+    dimension_operator = string
+    dimension_values   = list(string)
+  }))
 }
-variable "enable_metric_alerts"{
+variable "enable_metric_alerts" {
   description = "Do you want to enable monitor metric alert for this resource?"
   type        = bool
 }
@@ -46,7 +46,7 @@ variable "enable_metric_alerts"{
 # metric alert
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert
 resource "azurerm_monitor_metric_alert" "this" {
-  for_each            = {for this in var.metric_alerts: this.name => this if var.enable_metric_alerts}
+  for_each            = { for this in var.metric_alerts : this.name => this if var.enable_metric_alerts }
   name                = each.value.name
   resource_group_name = var.resource_group_name
   scopes              = var.scopes
@@ -72,7 +72,7 @@ resource "azurerm_monitor_metric_alert" "this" {
 
 # outputs
 output "id" {
-  value       = {
+  value = {
     for k, v in azurerm_monitor_metric_alert.this : k => v.id
   }
   description = "The ID of the metric alert."

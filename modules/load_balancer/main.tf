@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -31,7 +31,7 @@ variable "public_ip_name" {
   description = "Specifies the name of the public IP. Changing this forces a new resource to be created."
   type        = string
 }
-variable "allocation_method"{
+variable "allocation_method" {
   description = "Allocation method for IP configuration. (Options: 1. [Static] 2. Dynamic)."
   type        = string
   default     = "Static"

@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.26.0"
     }
   }
 }
-provider "azurerm"  {
+provider "azurerm" {
   features {}
 }
 
@@ -72,15 +72,15 @@ variable "mssql_db_str_days" {
 # mssql database
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/sql_server
 resource "azurerm_mssql_database" "this" {
-  name                = var.name
-  server_id           = var.server_id
-  sku_name            = var.sku_name
-  collation           = var.collation
-  license_type        = var.license_type
-  max_size_gb         = var.max_size_gb
-  read_scale          = var.read_scale
-  zone_redundant      = var.zone_redundant
-  tags                = var.tags
+  name           = var.name
+  server_id      = var.server_id
+  sku_name       = var.sku_name
+  collation      = var.collation
+  license_type   = var.license_type
+  max_size_gb    = var.max_size_gb
+  read_scale     = var.read_scale
+  zone_redundant = var.zone_redundant
+  tags           = var.tags
 
   long_term_retention_policy {
     weekly_retention  = var.mssql_db_ltr_weekly
