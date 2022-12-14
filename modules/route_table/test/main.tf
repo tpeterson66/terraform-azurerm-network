@@ -1,3 +1,7 @@
+provider "azurerm" {
+  features {}
+}
+
 // resource group
 resource "azurerm_resource_group" "rg" {
   name     = "spacelift-test-route-table"
