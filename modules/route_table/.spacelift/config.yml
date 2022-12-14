@@ -6,3 +6,8 @@ module_version: 0.1.1
 # Any default settings that should be used for all test cases
 test_defaults:
   before_init: ["terraform fmt -check"]
+
+# The set of tests to run to verify your module works correctly
+tests:
+  - name: Test the module with 0.12.7
+    terraform_version: 1.3.6
