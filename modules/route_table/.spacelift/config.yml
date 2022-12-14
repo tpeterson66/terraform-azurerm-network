@@ -15,4 +15,4 @@ tests:
       # TF_VAR_name: spacelift-module-route-table
       # TF_VAR_location: "eastus"
       # TF_VAR_resource_group_name: spacelift-modules
-    project_root: test
+    project_root: .spacelift
