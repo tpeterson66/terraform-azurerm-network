@@ -14,5 +14,5 @@ tests:
     environment:
       TF_VAR_name: spacelift-module-route-table
       TF_VAR_location: "eastus"
-      TF_VAR_tags: null
+      TF_VAR_tags: { environment = "Dev", project = "Spacelift", owner = "Tom Peterson" }
       TF_VAR_resource_group_name: spacelift-modules
