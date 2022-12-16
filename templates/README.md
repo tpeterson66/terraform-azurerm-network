@@ -57,9 +57,9 @@ This way we can call the template x number of times to build out larger workflow
 
 ## Work in Progress list
 
-- [ ] Checkov template for GitHub Actions
-- [ ] Infracost template for GitHub Actions
-- [ ] tfsec template for GitHub Actions
+- [x] Checkov template for GitHub Actions
+- [x] Infracost template for GitHub Actions
+- [x] tfsec template for GitHub Actions
 - [x] tfsec template for DevOps Pipelines
-- [ ] Terrascan template for DevOps Pipelines
-- [ ] Terrascan template for GitHub Actions
+- [x] Terrascan template for DevOps Pipelines
+- [x] Terrascan template for GitHub Actions
