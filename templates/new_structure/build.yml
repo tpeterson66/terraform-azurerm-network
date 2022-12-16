@@ -3,6 +3,8 @@ parameters:
   type: string
 - name: environment
   type: string
+- name: vmImage
+  type: string
 - name: privatePoolName
   type: string
 - name: tfVersion
@@ -17,18 +19,24 @@ parameters:
   type: string
 - name: backendContainerName
   type: string
+- name: checkFormat
+  type: boolean
 
 jobs:
   - job: "${{ parameters.environment}}TFBuild"
     dependsOn: ${{ parameters.dependsOn}}
-    pool: ${{ parameters.privatePoolName }}
+    pool: 
+      ${{ if ne(parameters.privatePoolName, '') }}:
+        name: ${{ parameters.privatePoolName }}
+      ${{ if eq(parameters.privatePoolName, '') }}:
+        vmImage: ${{ parameters.vmImage }}
     displayName: "Terraform > install, init & plan"
     steps:
-      - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+      - task: TerraformInstaller@0
         inputs:
           terraformVersion: ${{ parameters.tfVersion }}
         displayName: "Install > terraform"
-      - task: TerraformTaskV2@2
+      - task: TerraformTaskV3@3
         inputs:
           command: "init"
           workingDirectory: ${{  parameters.workingDirectory }}
@@ -40,13 +48,24 @@ jobs:
           backendAzureRmContainerName: ${{ parameters.backendContainerName }}
           backendAzureRmKey: ${{ parameters.environment }}.tfstate
         displayName: "Run > terraform init"
-      - task: TerraformTaskV2@2
+      - task: TerraformTaskV3@3
+        condition: eq('${{ parameters.checkFormat }}', 'true')
+        inputs:
+          provider: 'azurerm'
+          environmentServiceNameAzureRM: ${{ parameters.serviceConnection }}
+          workingDirectory: ${{  parameters.workingDirectory }}
+          command: 'custom'
+          customCommand: 'fmt'
+          commandOptions: '-check'
+          outputTo: 'console'
+        displayName: "Run > terraform fmt"
+      - task: TerraformTaskV3@3
         inputs:
           command: "validate"
           workingDirectory: ${{ parameters.workingDirectory }}
           environmentServiceName: ${{ parameters.serviceConnection }}
         displayName: "Run > terraform validate"
-      - task: TerraformTaskV2@2
+      - task: TerraformTaskV3@3
         inputs:
           command: "plan"
           workingDirectory: ${{ parameters.workingDirectory }}
@@ -69,6 +88,6 @@ jobs:
         inputs:
           scriptSource: 'filePath'
           pythonInterpreter: '/usr/bin/python3'
-          scriptPath: '$(System.DefaultWorkingDirectory)/.azure/tfcheck.py'
+          scriptPath: '$(System.DefaultWorkingDirectory)/tfcheck.py'
           workingDirectory: ${{ parameters.workingDirectory }}
         displayName: "Produce Execution Variables"

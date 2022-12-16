@@ -1,0 +1,30 @@
+parameters:
+- name: environment
+  type: string
+- name: tfsecImageName
+  type: string
+- name: scanDirectory
+  type: string
+
+jobs:
+  - job: ${{ parameters.environment}}tfsec
+    pool:
+      vmImage: ubuntu-latest
+    displayName: "${{ parameters.environment }} Tfsec Analysis"
+    steps:
+      - bash: |
+          mkdir reports
+          chmod a+w reports
+
+          docker run -v "$(pwd):/${{ parameters.scanDirectory }}" -v "$(pwd)/reports:/reports" \
+          ${{ parameters.tfsecImageName }} /${{ parameters.scanDirectory }} \
+          --format junit --out /reports/tfsec.xml -s
+
+        workingDirectory: $(System.DefaultWorkingDirectory)/
+        displayName: "Run > tfsec"
+      - task: PublishTestResults@2
+        inputs:
+          testRunTitle: "Tfsec Results"
+          failTaskOnFailedTests: false # change to true for production
+          testResultsFiles: '**/reports/tfsec.xml' 
+        displayName: "Publish > Tfscan scan results"

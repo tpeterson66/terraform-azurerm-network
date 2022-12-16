@@ -1,6 +1,15 @@
 parameters:
 - name: workingDirectory
   type: string
+- name: checkovImageName
+  type: string
+- name: checkovTestResultsFileName
+  type: string
+- name: scanDirectory
+  type: string
+- name: skipCheck
+  type: string
+
 
 jobs:
   - job: "runCheckov"
@@ -9,15 +18,16 @@ jobs:
       vmImage: ubuntu-latest
     steps:
       - bash: |
-          docker pull bridgecrew/checkov
+          docker pull ${{ parameters.checkovImageName }}
         workingDirectory: ${{ parameters.workingDirectory }}
         displayName: "Pull > bridgecrew/checkov"
       - bash: |
           docker run \
-            --volume $(pwd):/terraform bridgecrew/checkov \
-            --directory /terraform \
+            --volume $(pwd):/${{ parameters.scanDirectory }} ${{ parameters.checkovImageName }} \
+            --directory /${{ parameters.scanDirectory }} \
             --output junitxml \
-            --soft-fail > $(pwd)/CheckovReport.xml              
+            --soft-fail > $(pwd)/${{ parameters.checkovTestResultsFileName }} \
+            --skip-check ${{ parameters.skipCheck }}          
         workingDirectory: ${{ parameters.workingDirectory }}
         displayName: "Run > checkov"
       - task: PublishTestResults@2
@@ -25,6 +35,6 @@ jobs:
           testRunTitle: "Checkov Results"
           failTaskOnFailedTests: false # change to true for production
           testResultsFormat: "JUnit"
-          testResultsFiles: "CheckovReport.xml"
+          testResultsFiles: ${{ parameters.checkovTestResultsFileName }}
           searchFolder: ${{ parameters.workingDirectory }}
         displayName: "Publish > Checkov scan results"
