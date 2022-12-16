@@ -3,8 +3,10 @@ parameters:
   type: string
 - name: environment
   type: string
-#- name: privatePoolName
-#  type: string
+- name: vmImage
+  type: string
+- name: privatePoolName
+  type: string
 - name: tfVersion
   type: string
 - name: workingDirectory
@@ -23,7 +25,11 @@ parameters:
 jobs:
   - job: "${{ parameters.environment}}TFBuild"
     dependsOn: ${{ parameters.dependsOn}}
-#    pool: ${{ parameters.privatePoolName }}
+    pool: 
+      ${{ if ne(parameters.privatePoolName, '') }}:
+        name: ${{ parameters.privatePoolName }}
+      ${{ if eq(parameters.privatePoolName, '') }}:
+        vmImage: ${{ parameters.vmImage }}
     displayName: "Terraform > install, init & plan"
     steps:
       - task: TerraformInstaller@0
@@ -65,7 +71,7 @@ jobs:
           workingDirectory: ${{ parameters.workingDirectory }}
           environmentServiceNameAzureRM: ${{ parameters.serviceConnection }}
           publishPlanResults: "PlanResults"
-          commandOptions: "-out=$(System.DefaultWorkingDirectory)/terraform.tfplan -detailed-exitcode" #-var backendAzureRmResourceGroupName=${{ parameters.backendResourceGroupName }} -var backendAzureRmStorageAccountName=${{ parameters.backendStorageAccountName }} -var backendAzureRmContainerName=${{ parameters.backendContainerName }} -var backendAzureRmKey=${{ parameters.environment }}.tfstate -var-file=${{ parameters.workingDirectory }}/variables/${{ parameters.environment }}.auto.tfvars"
+          commandOptions: "-out=$(System.DefaultWorkingDirectory)/terraform.tfplan -detailed-exitcode -var backendAzureRmResourceGroupName=${{ parameters.backendResourceGroupName }} -var backendAzureRmStorageAccountName=${{ parameters.backendStorageAccountName }} -var backendAzureRmContainerName=${{ parameters.backendContainerName }} -var backendAzureRmKey=${{ parameters.environment }}.tfstate"
         name: "plan"
         displayName: "Run > terraform plan"
       - bash: | 

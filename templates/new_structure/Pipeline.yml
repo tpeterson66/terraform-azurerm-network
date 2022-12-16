@@ -1,6 +1,3 @@
-pool:
-    vmImage: ubuntu-latest
-
 trigger: none
 #  - main
 #  - auto/*
@@ -11,6 +8,8 @@ resources:
 stages:
   - template: BuildStage.yml
     parameters:
+      vmImage: 'ubuntu-latest'
+      privatePoolName: 'TestPool'
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
       checkovImageName: 'bridgecrew/checkov'
       checkovTestResultsFileName: 'CheckovReport.xml' 
@@ -20,7 +19,6 @@ stages:
       skipCheck: none
       dependsOn: 'runCheckov'
       environment: 'dev'
-#        privatePoolName: 'cspmigtest2-build-agents'
       tfVersion: '1.1.8'
       serviceConnection: 'ahmed-test'
       backendResourceGroupName: 'test'
@@ -31,6 +29,8 @@ stages:
       infracostBudget: '4000'
   - template: ApplyStage.yml
     parameters:
+      vmImage: ubuntu-latest
+      privatePoolName: 'TestPool'
       environment: 'dev'
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
       tfVersion: '1.1.8'

@@ -14,6 +14,11 @@ parameters:
 - name: skipCheck
   type: string
   default: 'none'
+- name: privatePoolName
+  type: string
+  default: ''
+- name: vmImage
+  type: string
 - name: workingDirectory
   type: string
 - name: checkovTestResultsFileName
@@ -22,8 +27,6 @@ parameters:
   type: string
 - name: environment
   type: string
-#- name: privatePoolName
-#  type: string
 - name: tfVersion
   type: string
 - name: serviceConnection
@@ -43,6 +46,7 @@ parameters:
 
 stages:
 - stage: build
+  pool: ${{ parameters.vmImage }}
   displayName: "Build and Test"
   jobs:
     - template: checkov.yml
@@ -56,7 +60,8 @@ stages:
       parameters:
         dependsOn: ${{ parameters.dependsOn }}
         environment: ${{ parameters.environment }}
-#        privatePoolName: ${{ parameters.privatePoolName }}
+        vmImage: ${{ parameters.vmImage }}
+        privatePoolName: ${{ parameters.privatePoolName }}
         tfVersion: ${{ parameters.tfVersion }}
         workingDirectory: ${{ parameters.workingDirectory }}
         serviceConnection: ${{ parameters.serviceConnection }}

@@ -1,4 +1,9 @@
 parameters:
+- name: privatePoolName
+  type: string
+  default: ''
+- name: vmImage
+  type: string
 - name: environment
   type: string
 - name: tfVersion
@@ -24,6 +29,11 @@ stages:
   dependsOn:
     - "build"
   displayName: "Apply"
+  pool: 
+    ${{ if ne(parameters.privatePoolName, '') }}:
+      name: ${{ parameters.privatePoolName }}
+    ${{ if eq(parameters.privatePoolName, '') }}:
+      vmImage: ${{ parameters.vmImage }}
   variables:
     ActionDelete: $[stageDependencies.build.${{ parameters.environment}}TFBuild.outputs['ProduceVars.ActionDelete']]
   jobs:
