@@ -40,13 +40,13 @@ variable "private_link_service_network_policies_enabled" {
   description = "Enforce network policies. Defaults to true."
 }
 variable "settings" {
-  default = {
-    delegation = {
-      name               = "delegation"
-      service_delegation = "Microsoft.ContainerInstance/containerGroups"
-      actions            = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
-    }
-  }
+  type = list(object({
+    delegation = map(object({
+      name = string
+      service_delegation = string
+      actions = list(string)
+    }))
+  }))
 }
 
 # resources
