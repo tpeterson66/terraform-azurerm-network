@@ -30,10 +30,13 @@ variable "address_space" {
 variable "tags" {
   type        = map(string)
   description = "A map of the tags to use on the resources that are deployed with this module."
-
-  default = {
-    source = "terraform"
-  }
+}
+variable "settings" {
+  type = list(object({
+    vnet = object({
+      dns_servers = list(string)
+    })
+  }))
 }
 
 # resources
@@ -47,7 +50,7 @@ resource "azurerm_virtual_network" "this" {
 
   dns_servers = flatten(
     concat(
-      try(lookup(var.settings.vnet, "dns_servers", [])),
+      try(var.settings.vnet.dns_servers, []),
       try(local.dns_servers_process, [])
     )
   )
