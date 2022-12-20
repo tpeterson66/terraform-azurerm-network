@@ -31,7 +31,7 @@ No modules.
 | <a name="input_private_link_service_network_policies_enabled"></a> [private\_link\_service\_network\_policies\_enabled](#input\_private\_link\_service\_network\_policies\_enabled) | Enforce network policies. Defaults to true. | `bool` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The resource group for the resource | `string` | n/a | yes |
 | <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | List of service endpoints.Possible values include: Microsoft.AzureActiveDirectory, Microsoft.AzureCosmosDB, Microsoft.ContainerRegistry, Microsoft.EventHub, Microsoft.KeyVault, Microsoft.ServiceBus, Microsoft.Sql, Microsoft.Storage and Microsoft.Web. | `list(string)` | n/a | yes |
-| <a name="input_settings"></a> [settings](#input\_settings) | n/a | `map` | <pre>{<br>  "delegation": {<br>    "actions": [<br>      "Microsoft.Network/virtualNetworks/subnets/join/action",<br>      "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"<br>    ],<br>    "name": "delegation",<br>    "service_delegation": "Microsoft.ContainerInstance/containerGroups"<br>  }<br>}</pre> | no |
+| <a name="input_settings"></a> [settings](#input\_settings) | n/a | <pre>list(object({<br>    delegation = map(object({<br>      name = string<br>      service_delegation = string<br>      actions = list(string)<br>    }))<br>  }))</pre> | n/a | yes |
 | <a name="input_virtual_network_name"></a> [virtual\_network\_name](#input\_virtual\_network\_name) | Name of the virtual network | `string` | n/a | yes |
 
 ## Outputs
