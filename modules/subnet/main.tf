@@ -42,9 +42,9 @@ variable "private_link_service_network_policies_enabled" {
 variable "settings" {
   type = list(object({
     delegation = map(object({
-      name = string
+      name               = string
       service_delegation = string
-      actions = list(string)
+      actions            = list(string)
     }))
   }))
 }
