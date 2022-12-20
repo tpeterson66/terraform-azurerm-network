@@ -48,12 +48,7 @@ resource "azurerm_virtual_network" "this" {
   address_space       = var.address_space
   tags                = var.tags
 
-  dns_servers = flatten(
-    concat(
-      try(var.settings.vnet.dns_servers, []),
-      try(local.dns_servers_process, [])
-    )
-  )
+  dns_servers = try(var.settings.vnet.dns_servers, [])
 
   dynamic "ddos_protection_plan" {
     for_each = var.ddos_id != "" || can(var.global_settings["ddos_protection_plan_id"]) ? [1] : []
