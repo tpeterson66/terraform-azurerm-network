@@ -33,9 +33,9 @@ variable "tags" {
 }
 variable "settings" {
   type = list(object({
-    vnet = object({
+    vnet = map(object({
       dns_servers = list(string)
-    })
+    }))
   }))
 }
 
