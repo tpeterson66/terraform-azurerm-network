@@ -20,16 +20,18 @@ No modules.
 | Name | Type |
 |------|------|
 | [azurerm_virtual_network.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/virtual_network) | resource |
+| [azurerm_virtual_network_dns_servers.this](https://registry.terraform.io/providers/hashicorp/azurerm/3.26.0/docs/resources/virtual_network_dns_servers) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_address_space"></a> [address\_space](#input\_address\_space) | The address space for the virtaul network | `list(string)` | n/a | yes |
+| <a name="input_ddos_id"></a> [ddos\_id](#input\_ddos\_id) | The ID of the DDoS Protection Plan | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | The Azure Region where the virutal network will be deployed | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | The name of the virtual network | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The Azure Resource Group Name for management | `string` | n/a | yes |
-| <a name="input_settings"></a> [settings](#input\_settings) | n/a | <pre>list(object({<br>    vnet = map(object({<br>      dns_servers = list(string)<br>    }))<br>  }))</pre> | n/a | yes |
+| <a name="input_settings"></a> [settings](#input\_settings) | n/a | <pre>list(object({<br>    dns_servers = list(string)<br>  }))</pre> | <pre>[<br>  {<br>    "dns_servers": []<br>  }<br>]</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of the tags to use on the resources that are deployed with this module. | `map(string)` | n/a | yes |
 
 ## Outputs
