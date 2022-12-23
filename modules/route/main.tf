@@ -15,14 +15,6 @@ variable "name" {
   description = "A name for route"
   type        = string
 }
-variable "location" {
-  description = "Azure location where route will be deployed"
-  type        = string
-}
-variable "tags" {
-  type        = map(string)
-  description = "A map of the tags to use on the resources that are deployed with this module."
-}
 variable "resource_group_name" {
   description = "The name of the resource group in which to create the route."
   type        = string
