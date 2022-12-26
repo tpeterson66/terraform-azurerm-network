@@ -63,7 +63,7 @@ variable "redis_configuration" {
     enable_authentication           = bool
     maxmemory_reserved              = number
     maxmemory_delta                 = number
-    maxmemory_policy                = number
+    maxmemory_policy                = string
     maxfragmentationmemory_reserved = number
     rdb_backup_enabled              = bool
     rdb_backup_frequency            = number

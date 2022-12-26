@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 // Static site
-module "linux_web_app" {
+module "static_site" {
   source              = "../"
   name                = "spacelift-static-site"
   location            = azurerm_resource_group.rg.location
