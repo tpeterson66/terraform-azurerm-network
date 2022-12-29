@@ -97,7 +97,7 @@ resource "azurerm_linux_function_app" "this" {
 # monitor diagnostic settings
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting
 module "monitor_diagnostic_setting" {
-  source = "../monitor_diagnostic_settings"
+  source = "../monitor_diagnostic_setting"
 
   name                       = "${var.name}_diagnostic_setting"
   target_resource_id         = azurerm_linux_function_app.this.id

@@ -11,10 +11,6 @@ provider "azurerm" {
 }
 
 # variables
-variable "tags" {
-  type        = map(string)
-  description = "A map of the tags to use on the resources that are deployed with this module."
-}
 variable "resource_group_name" {
   description = "The name of the resource group in which to create the Monitor Metric Alert."
   type        = string
@@ -40,6 +36,10 @@ variable "metric_alerts" {
 variable "enable_metric_alerts" {
   description = "Do you want to enable monitor metric alert for this resource?"
   type        = bool
+}
+variable "scopes" {
+  description = "A set of strings of resource IDs at which the metric criteria should be applied."
+  type        = list(string)
 }
 
 # resources
