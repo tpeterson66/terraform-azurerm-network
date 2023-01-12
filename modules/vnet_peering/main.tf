@@ -19,10 +19,6 @@ variable "name_back" {
   type        = string
   description = "The name of the virtual network peering from vnet 2 to vnet 1."
 }
-variable "tags" {
-  type        = map(string)
-  description = "A map of the tags to use on the resources that are deployed with this module."
-}
 variable "virtual_network_1_name" {
   description = "The name of virtual network 1 for which we are configuring peering."
   type        = string
