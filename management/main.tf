@@ -25,7 +25,7 @@ resource "spacelift_space" "modules" {
 }
 
 module "route_table" {
-  source = "modules/module"
+  source = "./modules/module"
   name           = "terraform-azurerm-route_table"
   space_id       = spacelift_space.modules.id
   administrative = false
@@ -39,7 +39,7 @@ module "route_table" {
 }
 
 module "static_site" {
-  source = "modules/module"
+  source = "./modules/module"
   name           = "terraform-azurerm-static_site"
   space_id       = spacelift_space.modules.id
   administrative = false
