@@ -1,3 +1,16 @@
+terraform {
+  required_providers {
+    spacelift = {
+      source = "spacelift-io/spacelift"
+      version = "1.0.2"
+    }
+  }
+}
+
+provider "spacelift" {
+  # Configuration options
+}
+
 variable "name" {
   type = string
   description = "The name of the module"
