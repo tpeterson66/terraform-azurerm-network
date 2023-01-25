@@ -29,6 +29,6 @@ resource "spacelift_module" "route_table" {
   administrative = false
   branch         = "main"
   description    = "Azure Route Table"
-  repository     = "tpeterson66/terraform-azurerm-network"
+  repository     = "terraform-azurerm-network"
   project_root   = "modules/route_table"
 }
