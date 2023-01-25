@@ -31,4 +31,7 @@ resource "spacelift_module" "route_table" {
   description    = "Azure Route Table"
   repository     = "terraform-azurerm-network"
   project_root   = "modules/route_table"
+  github_enterprise {
+    namespace = "tpeterson66"
+  }
 }
