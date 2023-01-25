@@ -15,14 +15,6 @@ variable "name" {
   description = "A name for route"
   type        = string
 }
-variable "location" {
-  description = "Azure location where route will be deployed"
-  type        = string
-}
-variable "tags" {
-  type        = map(string)
-  description = "A map of the tags to use on the resources that are deployed with this module."
-}
 variable "resource_group_name" {
   description = "The name of the resource group in which to create the route."
   type        = string
@@ -52,7 +44,7 @@ resource "azurerm_route" "this" {
   route_table_name       = var.route_table_name
   address_prefix         = var.address_prefix
   next_hop_type          = var.next_hop_type
-  next_hop_in_ip_address = try(lower(var.next_hop_type), null) == "VirtualAppliance" ? var.next_hop_in_ip_address : null
+  next_hop_in_ip_address = try(lower(var.next_hop_type), null) == "virtualappliance" ? var.next_hop_in_ip_address : null
 }
 
 # outputs

@@ -34,7 +34,6 @@ No modules.
 | <a name="input_ip_address_type"></a> [ip\_address\_type](#input\_ip\_address\_type) | Specifies the IP address type of the container. Public, Private or None. Changing this forces a new resource to be created. If set to Private, network\_profile\_id also needs to be set. | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Azure location where Container group will be deployed | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | A name for a Container group | `string` | n/a | yes |
-| <a name="input_network_profile_id"></a> [network\_profile\_id](#input\_network\_profile\_id) | Network profile ID for deploying to virtual network. | `string` | n/a | yes |
 | <a name="input_os_type"></a> [os\_type](#input\_os\_type) | The OS for the container group. Allowed values are Linux and Windows. Changing this forces a new resource to be created. | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group in which to create the Container group. | `string` | n/a | yes |
 | <a name="input_restart_policy"></a> [restart\_policy](#input\_restart\_policy) | Restart policy for the container group. Allowed values are Always, Never, OnFailure. Defaults to Always. Changing this forces a new resource to be created. | `string` | n/a | yes |

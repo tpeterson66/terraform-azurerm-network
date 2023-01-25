@@ -63,10 +63,7 @@ variable "private_ip_address_allocation_method" {
   type        = string
   default     = "Dynamic"
 }
-variable "address_space" {
-  description = "The address space out of which IP addresses for vpn clients will be taken. You can provide more than one address space, e.g. in CIDR notation."
-  type        = list(string)
-}
+
 # resources
 # virtual network gateway
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network_gateway
@@ -83,10 +80,10 @@ resource "azurerm_virtual_network_gateway" "this" {
   sku           = var.sku
 
   ip_configuration {
-    name                                 = var.ip_configuration_name
-    public_ip_address_id                 = var.public_ip_address_id
-    private_ip_address_allocation_method = var.private_ip_address_allocation_method
-    subnet_id                            = var.subnet_id
+    name                          = var.ip_configuration_name
+    public_ip_address_id          = var.public_ip_address_id
+    private_ip_address_allocation = var.private_ip_address_allocation_method
+    subnet_id                     = var.subnet_id
   }
 }
 

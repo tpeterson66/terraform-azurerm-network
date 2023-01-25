@@ -39,10 +39,6 @@ variable "is_manual_connection" {
   description = "Does the Private Endpoint require Manual Approval from the remote resource owner? Changing this forces a new resource to be created."
   type        = bool
 }
-variable "subresource_names" {
-  description = "A list of subresource names which the Private Endpoint is able to connect to. subresource_names corresponds to group_id. Changing this forces a new resource to be created."
-  type        = list(string)
-}
 variable "private_dns_zone_group_name" {
   description = "Specifies the Name of the Private Service Connection. Changing this forces a new resource to be created."
   type        = string
@@ -65,7 +61,6 @@ resource "azurerm_private_endpoint" "this" {
     name                           = var.private_service_connection_name
     private_connection_resource_id = var.private_connection_resource_id
     is_manual_connection           = var.is_manual_connection
-    subresource_names              = var.subresource_names
   }
   private_dns_zone_group {
     name                 = var.private_dns_zone_group_name

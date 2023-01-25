@@ -39,10 +39,6 @@ variable "restart_policy" {
   description = "Restart policy for the container group. Allowed values are Always, Never, OnFailure. Defaults to Always. Changing this forces a new resource to be created."
   type        = string
 }
-variable "network_profile_id" {
-  description = "Network profile ID for deploying to virtual network."
-  type        = string
-}
 variable "container_name" {
   description = "Specifies the name of the Container. Changing this forces a new resource to be created."
   type        = string
@@ -78,7 +74,7 @@ resource "azurerm_container_group" "this" {
   ip_address_type     = var.ip_address_type
   os_type             = var.os_type
   restart_policy      = var.restart_policy
-  network_profile_id  = var.network_profile_id
+  # network_profile_id  = var.network_profile_id
 
   container {
     name   = var.container_name
