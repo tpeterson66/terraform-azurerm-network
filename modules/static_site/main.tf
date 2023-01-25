@@ -6,10 +6,6 @@ terraform {
     }
   }
 }
-provider "azurerm" {
-  features {}
-}
-
 # variables
 variable "name" {
   description = "A name for a Static Site"
