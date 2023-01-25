@@ -23,3 +23,11 @@ resource "spacelift_space" "modules" {
   parent_space_id = spacelift_space.coretek.id
   inherit_entities = true
 }
+
+resource "spacelift_module" "route_table" {
+  administrative = false
+  branch         = "main"
+  description    = "Azure Route Table"
+  repository     = "tpeterson66/terraform-azurerm-network"
+  project_root   = "modules/route_table"
+}
