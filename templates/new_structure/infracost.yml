@@ -3,6 +3,8 @@ parameters:
   type: string
 - name: dependsOn
   type: string
+- name: infracostBudget
+  type: number
 
 jobs:
   - job: ${{ parameters.environment}}infracost
@@ -11,7 +13,7 @@ jobs:
     dependsOn: ${{parameters.dependsOn}}
     displayName: "${{ parameters.environment }} Infracost Analysis"
     steps:
-      - task: DownloadBuildArtifacts@1
+      - task: DownloadBuildArtifacts@0
         displayName: "Download > terraform_plan.json Artifact"
         inputs:
           buildType: 'current'
@@ -24,10 +26,17 @@ jobs:
           --path /tf/terraform_plan.json --show-skipped
 
           docker run -e INFRACOST_API_KEY=$(INFRACOST_API_KEY) \
-          -v $(pwd):/tf infracost/infracost breakdown \
+          -v $(pwd):/tf -v $(pwd)/reports:/reports infracost/infracost breakdown \
           --path /tf/terraform_plan.json --show-skipped --format json \
-          --out-file infracost.json          
+          --out-file /reports/infracost.json         
         workingDirectory: $(System.DefaultWorkingDirectory)/${{ parameters.environment }}plan
         displayName: "Run > infracost"
         env:
           INFRACOST_API_KEY: $(INFRACOST_API_KEY)
+      - task: PythonScript@0
+        name: checkBudget
+        inputs:
+          scriptPath: '$(System.DefaultWorkingDirectory)/checkBudget.py'
+          arguments: '-budget ${{ parameters.infracostBudget }}'
+          workingDirectory: $(System.DefaultWorkingDirectory)/${{ parameters.environment }}plan/reports
+        displayName: "Check Budget"

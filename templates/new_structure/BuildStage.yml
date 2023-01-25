@@ -1,0 +1,86 @@
+parameters:
+- name: checkovImageName
+  type: string
+  default: 'bridgecrew/checkov'
+- name: scanDirectory
+  type: string
+  default: 'terraform'
+- name: terrascanImageName
+  type: string
+  default: 'accurics/terrascan'
+- name: tfsecImageName
+  type: string
+  default: 'aquasec/tfsec'
+- name: skipCheck
+  type: string
+  default: 'none'
+- name: privatePoolName
+  type: string
+  default: ''
+- name: vmImage
+  type: string
+- name: workingDirectory
+  type: string
+- name: checkovTestResultsFileName
+  type: string
+- name: dependsOn
+  type: string
+- name: environment
+  type: string
+- name: tfVersion
+  type: string
+- name: serviceConnection
+  type: string
+- name: backendResourceGroupName
+  type: string
+- name: backendStorageAccountName
+  type: string
+- name: backendContainerName
+  type: string
+- name: checkFormat
+  type: boolean
+- name: infracostDependsOn
+  type: string
+- name: infracostBudget
+  type: number
+
+stages:
+- stage: build
+  pool: ${{ parameters.vmImage }}
+  displayName: "Build and Test"
+  jobs:
+    - template: checkov.yml
+      parameters:
+        workingDirectory: ${{ parameters.workingDirectory }}
+        checkovImageName: ${{ parameters.checkovImageName }}
+        checkovTestResultsFileName: ${{ parameters.checkovTestResultsFileName }}
+        scanDirectory: ${{ parameters.scanDirectory }}
+        skipCheck: ${{ parameters.skipCheck }}
+    - template: build.yml
+      parameters:
+        dependsOn: ${{ parameters.dependsOn }}
+        environment: ${{ parameters.environment }}
+        vmImage: ${{ parameters.vmImage }}
+        privatePoolName: ${{ parameters.privatePoolName }}
+        tfVersion: ${{ parameters.tfVersion }}
+        workingDirectory: ${{ parameters.workingDirectory }}
+        serviceConnection: ${{ parameters.serviceConnection }}
+        backendResourceGroupName: ${{ parameters.backendResourceGroupName}}
+        backendStorageAccountName: ${{ parameters.backendStorageAccountName }}
+        backendContainerName: ${{ parameters.backendContainerName}}
+        checkFormat: ${{ parameters.checkFormat }}
+    - template: infracost.yml
+      parameters:
+        environment: ${{ parameters.environment }}
+        dependsOn: ${{ parameters.infracostDependsOn }}
+        infracostBudget: ${{ parameters.infracostBudget }}
+    - template: tfsec.yml
+      parameters:
+        environment: ${{ parameters.environment }}
+        scanDirectory: ${{ parameters.scanDirectory }}
+        tfsecImageName: ${{ parameters.tfsecImageName }}
+    - template: terrascan.yml
+      parameters:
+        environment: ${{ parameters.environment }}
+        scanDirectory: ${{ parameters.scanDirectory  }}
+        terrascanImageName: ${{ parameters.terrascanImageName }}

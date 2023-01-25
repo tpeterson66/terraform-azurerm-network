@@ -1,0 +1,40 @@
+trigger: none
+#  - main
+#  - auto/*
+    
+resources:
+  - repo: self
+
+stages:
+  - template: BuildStage.yml
+    parameters:
+      vmImage: 'ubuntu-latest'
+      privatePoolName: 'TestPool'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      checkovImageName: 'bridgecrew/checkov'
+      checkovTestResultsFileName: 'CheckovReport.xml' 
+      scanDirectory: 'terraform'
+      terrascanImageName: 'accurics/terrascan'
+      tfsecImageName: 'aquasec/tfsec'
+      skipCheck: none
+      dependsOn: 'runCheckov'
+      environment: 'dev'
+      tfVersion: '1.1.8'
+      serviceConnection: 'ahmed-test'
+      backendResourceGroupName: 'test'
+      backendStorageAccountName: 'testahmed123'
+      backendContainerName: 'ahmedtest123'
+      checkFormat: false
+      infracostDependsOn: 'devTFBuild'
+      infracostBudget: '4000'
+  - template: ApplyStage.yml
+    parameters:
+      vmImage: ubuntu-latest
+      privatePoolName: 'TestPool'
+      environment: 'dev'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      tfVersion: '1.1.8'
+      serviceConnection: 'ahmed-test'
+      backendResourceGroupName: 'test'
+      backendStorageAccountName: 'testahmed123'
+      backendContainerName: 'ahmedtest123'
