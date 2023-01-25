@@ -26,6 +26,7 @@ resource "spacelift_space" "modules" {
 
 resource "spacelift_module" "route_table" {
   name           = "terraform-azurerm-route_table"
+  space_id       = spacelift_space.modules.id
   administrative = false
   branch         = "main"
   description    = "Azure Route Table"
