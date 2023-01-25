@@ -28,7 +28,6 @@ module "route_table" {
   source   = "./modules/module"
   name     = "terraform-azurerm-route_table"
   space_id = spacelift_space.modules.id
-  # administrative = false
   branch       = "main"
   description  = "Azure Route Table"
   repository   = "terraform-azurerm-network"
@@ -40,7 +39,6 @@ module "static_site" {
   source         = "./modules/module"
   name           = "terraform-azurerm-static_site"
   space_id       = spacelift_space.modules.id
-  administrative = false
   branch         = "main"
   description    = "Azure Static Site"
   repository     = "terraform-azurerm-network"
