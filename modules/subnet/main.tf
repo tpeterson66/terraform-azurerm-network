@@ -39,14 +39,20 @@ variable "private_link_service_network_policies_enabled" {
   type        = bool
   description = "Enforce network policies. Defaults to true."
 }
-variable "settings" {
-  type = list(object({
-    delegation = map(object({
-      name               = string
-      service_delegation = string
-      actions            = list(string)
-    }))
-  }))
+variable "delegation_name" {
+  type        = string
+  description = " A name for this delegation."
+  default = null
+}
+variable "service_delegation_name" {
+  type        = string
+  description = "The name of service to delegate to. Possible values are listed here https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet#service_delegation"
+  default = null
+}
+variable "service_delegation_actions" {
+  type = list(string)
+  description = "A list of Actions which should be delegated. This list is specific to the service to delegate to. Possible values are listed here https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet#service_delegation"
+  default = []
 }
 
 # resources
@@ -62,14 +68,14 @@ resource "azurerm_subnet" "this" {
   private_endpoint_network_policies_enabled     = try(var.private_endpoint_network_policies_enabled, false)
 
   dynamic "delegation" {
-    for_each = try(var.settings.delegation, null) == null ? [] : [1]
+    for_each = try(var.delegation_name, null) == null ? [] : [1]
 
     content {
-      name = var.settings.delegation.name
+      name = var.delegation_name
 
       service_delegation {
-        name    = var.settings.delegation.service_delegation
-        actions = lookup(var.settings.delegation, "actions", null)
+        name    = var.service_delegation_name
+        actions = var.service_delegation_actions
       }
     }
   }
