@@ -44,10 +44,12 @@ variable "sku_size" {
 variable "identity_type" {
   description = "The Type of Managed Identity assigned to this Static Site resource. Possible values are SystemAssigned, UserAssigned and SystemAssigned, UserAssigned."
   type        = string
+  default = "null"
 }
 variable "user_assigned_identities" {
   type        = list(string)
   description = "Specifies User Assigned Managed Identity IDs to be assigned to this static site."
+  default = null
 }
 
 # resources
