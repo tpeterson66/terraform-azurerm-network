@@ -20,6 +20,7 @@ resource "spacelift_stack" "smartcloud_dev" {
   repository        = "terraform-azurerm-network"
   terraform_version = "1.3.7"
   labels = [ "infracost" ]
+  space_id = spacelift_space.azure_team.id
 }
 
 resource "spacelift_azure_integration_attachment" "smartcloud_dev" {
@@ -44,6 +45,7 @@ resource "spacelift_stack" "azure_designer" {
   repository        = "terraform-azurerm-network"
   terraform_version = "1.3.7"
   labels = [ "infracost" ]
+  space_id = spacelift_space.azure_team.id
 }
 
 resource "spacelift_azure_integration_attachment" "azure_designer" {
