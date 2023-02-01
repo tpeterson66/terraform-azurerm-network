@@ -43,6 +43,7 @@ resource "spacelift_stack" "azure_designer" {
   project_root      = "smartcloud/azureDesigner"
   repository        = "terraform-azurerm-network"
   terraform_version = "1.3.7"
+  labels = [ "infracost" ]
 }
 
 resource "spacelift_azure_integration_attachment" "azure_designer" {
