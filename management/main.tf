@@ -16,6 +16,23 @@ data "spacelift_space" "root" {
   space_id = "root"
 }
 
+
+variable "module_integration_id" {
+  type        = string
+  default     = "01GR548ZCK34J9CFJ15YT96WB3"
+  description = "The spacelift integration ID for modules"
+}
+
+variable "module_subscription_id" {
+  type        = string
+  default     = "c759eb32-e9c8-4e19-9f2f-d036cf250f5c"
+  description = "The subscription used for module testing"
+
+}
+data "spacelift_azure_integration" "module" {
+  integration_id = var.module_integration_id
+}
+
 # Coretk Space
 resource "spacelift_space" "coretek" {
   name             = "coretek"
