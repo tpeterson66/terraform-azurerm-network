@@ -41,16 +41,16 @@ variable "sku_size" {
     error_message = "Allowed values are Free or Standard."
   }
 }
-variable "identity_type" {
-  description = "The Type of Managed Identity assigned to this Static Site resource. Possible values are SystemAssigned, UserAssigned and SystemAssigned, UserAssigned."
-  type        = string
-  default = "null"
-}
-variable "user_assigned_identities" {
-  type        = list(string)
-  description = "Specifies User Assigned Managed Identity IDs to be assigned to this static site."
-  default = null
-}
+# variable "identity_type" {
+#   description = "The Type of Managed Identity assigned to this Static Site resource. Possible values are SystemAssigned, UserAssigned and SystemAssigned, UserAssigned."
+#   type        = string
+#   default = "null"
+# }
+# variable "user_assigned_identities" {
+#   type        = list(string)
+#   description = "Specifies User Assigned Managed Identity IDs to be assigned to this static site."
+#   default = null
+# }
 
 # resources
 # static site
@@ -63,15 +63,15 @@ resource "azurerm_static_site" "this" {
   sku_tier            = var.sku_tier
   sku_size            = var.sku_size
 
-  dynamic "identity" {
-    for_each = var.user_assigned_identities
+  # dynamic "identity" {
+  #   for_each = var.user_assigned_identities
 
-    content {
-      type         = var.identity_type
-      identity_ids = var.user_assigned_identities
+  #   content {
+  #     type         = var.identity_type
+  #     identity_ids = var.user_assigned_identities
 
-    }
-  }
+  #   }
+  # }
 }
 
 # outputs
