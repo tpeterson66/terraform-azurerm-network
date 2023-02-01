@@ -290,21 +290,6 @@ module "network_security_group" {
   name                 = "terraform-azurerm-network_security_group"
   space_id             = data.spacelift_space.root.id
   branch               = "main"
-  description          = "Azure NAT Gateway"
-  repository           = "terraform-azurerm-network"
-  project_root         = "modules/network_security_group"
-  namespace            = "tpeterson66"
-  azure_integration_id = data.spacelift_azure_integration.module.id
-  write_permission     = true
-  read_permission      = true
-  azure_subscription   = var.module_subscription_id
-}
-
-module "network_security_group" {
-  source               = "./modules/module"
-  name                 = "terraform-azurerm-network_security_group"
-  space_id             = data.spacelift_space.root.id
-  branch               = "main"
   description          = "Azure Network Security Group"
   repository           = "terraform-azurerm-network"
   project_root         = "modules/network_security_group"
