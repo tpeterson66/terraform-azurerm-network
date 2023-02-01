@@ -12,8 +12,7 @@ module "route_table" {
   azure_integration_id = data.spacelift_azure_integration.module.id
   write_permission     = true
   read_permission      = true
-  subscription_id      = var.module_subscription_id
-
+  azure_subscription      = var.module_subscription_id
 }
 
 module "static_site" {
@@ -28,5 +27,5 @@ module "static_site" {
   azure_integration_id = data.spacelift_azure_integration.module.id
   write_permission     = true
   read_permission      = true
-  subscription_id      = var.module_subscription_id
+  azure_subscription      = var.module_subscription_id
 }
