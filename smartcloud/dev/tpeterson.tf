@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "tpeterson_rg" {
-  name     = "tpeterson-azure-designer"
+  name     = "tpeterson-sandbox"
   location = "East US"
   tags = {
     owner = "Tom Peterson"
