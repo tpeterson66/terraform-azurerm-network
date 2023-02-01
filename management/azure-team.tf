@@ -45,7 +45,7 @@ resource "spacelift_stack" "azure_designer" {
 }
 
 resource "spacelift_azure_integration_attachment" "azure_designer" {
-  integration_id  = data.spacelift_azure_integration.azure_designer.id
+  integration_id  = data.spacelift_azure_integration.smartcloud.id
   stack_id        = spacelift_stack.azure_designer.id
   write           = true
   read            = true
