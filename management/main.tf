@@ -38,6 +38,9 @@ variable "module_subscription_id" {
 data "spacelift_azure_integration" "module" {
   integration_id = var.module_integration_id
 }
+data "spacelift_azure_integration" "smartcloud" {
+  integration_id = var.smartcloud_integration_id
+}
 
 # Coretk Space
 resource "spacelift_space" "coretek" {
