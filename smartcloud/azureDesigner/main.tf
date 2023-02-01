@@ -1,7 +1,7 @@
 # Resource Group
 resource "azurerm_resource_group" "azure_designer" {
   name     = "azure-designer"
-  location = "East US"
+  location = "centralus"
   tags = {
     owner = "Tom Peterson"
     purpose = "Azure Designer"
