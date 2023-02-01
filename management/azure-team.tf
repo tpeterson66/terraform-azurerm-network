@@ -19,6 +19,7 @@ resource "spacelift_stack" "smartcloud_dev" {
   project_root      = "smartcloud/dev"
   repository        = "terraform-azurerm-network"
   terraform_version = "1.3.7"
+  labels = [ "infracost" ]
 }
 
 resource "spacelift_azure_integration_attachment" "smartcloud_dev" {
