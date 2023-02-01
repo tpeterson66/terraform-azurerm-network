@@ -1,5 +1,5 @@
 # Resource Group
-resource "azurerm_resource_group" "tpeterson_rg" {
+resource "azurerm_resource_group" "azure_designer" {
   name     = "azure-designer"
   location = "East US"
   tags = {
@@ -10,6 +10,17 @@ resource "azurerm_resource_group" "tpeterson_rg" {
 }
 
 # Azure Designer Site
+module "terraform-azurerm-static_site" {
+  source  = "spacelift.io/coretek/terraform-azurerm-static_site/default"
+  version = "0.0.1"
 
+  # Required inputs 
+  location            = azurerm_resource_group.azure_designer.location
+  name                = "azure-designer-caf"
+  resource_group_name = azurerm_resource_group.azure_designer.name
+  sku_size            = "Standard"
+  sku_tier            = "Standard"
+  tags                = azurerm_resource_group.azure_designer.tags
+}
 
 # Azure Designer site
