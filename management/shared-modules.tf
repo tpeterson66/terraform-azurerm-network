@@ -13,7 +13,6 @@ module "route_table" {
   write_permission     = true
   read_permission      = true
   azure_subscription      = var.module_subscription_id
-
 }
 
 module "static_site" {
