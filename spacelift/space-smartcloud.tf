@@ -1,6 +1,6 @@
 # azure team - used to manage the lab environments
-resource "spacelift_space" "azure_team" {
-  name             = "smartcloud-demo"
+resource "spacelift_space" "smartcloud" {
+  name             = "smartcloud"
   parent_space_id  = spacelift_space.coretek.id
   inherit_entities = true
 }
@@ -20,7 +20,7 @@ resource "spacelift_stack" "smartcloud_dev" {
   repository        = "terraform-azurerm-network"
   terraform_version = "1.3.7"
   labels = [ "infracost" ]
-  space_id = spacelift_space.azure_team.id
+  space_id = spacelift_space.smartcloud.id
 }
 
 resource "spacelift_azure_integration_attachment" "smartcloud_dev" {
@@ -45,7 +45,7 @@ resource "spacelift_stack" "azure_designer" {
   repository        = "terraform-azurerm-network"
   terraform_version = "1.3.7"
   labels = [ "infracost" ]
-  space_id = spacelift_space.azure_team.id
+  space_id = spacelift_space.smartcloud.id
 }
 
 resource "spacelift_azure_integration_attachment" "azure_designer" {
