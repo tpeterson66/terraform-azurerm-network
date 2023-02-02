@@ -19,10 +19,10 @@ module "redis_cache" {
     retention   = "DeleteAtWill"
     owner       = "spacelift"
   }
-  family              = "C"
-  sku_name            = "Basic"
-  capacity            = "1"
-  zones               = []
+  family   = "C"
+  sku_name = "Basic"
+  capacity = "1"
+  zones    = []
 }
 
 // redis cache with custom values
@@ -36,12 +36,12 @@ module "redis_cache_custom" {
     retention   = "DeleteAtWill"
     owner       = "spacelift"
   }
-  family              = "P"
-  sku_name            = "Premium"
-  capacity            = "1"
-  zones               = []
+  family                        = "P"
+  sku_name                      = "Premium"
+  capacity                      = "1"
+  zones                         = []
   public_network_access_enabled = true
-  minimum_tls_version = 1.2
+  minimum_tls_version           = 1.2
   redis_configuration = [{
     aof_backup_enabled              = false
     aof_storage_connection_string_0 = "test"

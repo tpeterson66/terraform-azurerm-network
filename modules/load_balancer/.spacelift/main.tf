@@ -8,7 +8,7 @@ module "load_balancer" {
   name                           = "spacelift-load-balancer"
   location                       = "EastUS"
   resource_group_name            = "spacelift-test-modules"
-  public_ip_name                 = "spacelift-publicip" 
+  public_ip_name                 = "spacelift-publicip"
   frontend_ip_configuration_name = "spacelift-frontendipconfig"
 
   tags = {
@@ -24,9 +24,9 @@ module "load_balancer_dynamic" {
   name                           = "spacelift-load-balancer-dynamic"
   location                       = "EastUS"
   resource_group_name            = "spacelift-test-modules"
-  public_ip_name                 = "spacelift-publicipdynamic" 
+  public_ip_name                 = "spacelift-publicipdynamic"
   frontend_ip_configuration_name = "spacelift-frontendipconfigdynamic"
-  allocation_method              = "Dynamic" 
+  allocation_method              = "Dynamic"
 
   tags = {
     environment = "module-testing"

@@ -4,15 +4,15 @@ provider "azurerm" {
 
 # // virtual network gateway
 module "virtual_network_gateway" {
-  source                               = "../"
-  name                                 = "spacelift-vnetgateway"
-  location                             = "East US"
-  resource_group_name                  = "spacelift-test-modules"
-  sku                                  = "VpnGw1AZ"
-  type                                 = "Vpn"
-  ip_configuration_name                = "spacelift-ipconfig"
-  subnet_id                            = "/subscriptions/d473e918-7273-4745-9214-3f7b999863a3/resourceGroups/spacelift-test-modules/providers/Microsoft.Network/virtualNetworks/spacelift-test-vnet1/subnets/GatewaySubnet"
-  public_ip_address_id                 = "/subscriptions/d473e918-7273-4745-9214-3f7b999863a3/resourceGroups/spacelift-test-modules/providers/Microsoft.Network/publicIPAddresses/spacelift-publicip"
+  source                = "../"
+  name                  = "spacelift-vnetgateway"
+  location              = "East US"
+  resource_group_name   = "spacelift-test-modules"
+  sku                   = "VpnGw1AZ"
+  type                  = "Vpn"
+  ip_configuration_name = "spacelift-ipconfig"
+  subnet_id             = "/subscriptions/d473e918-7273-4745-9214-3f7b999863a3/resourceGroups/spacelift-test-modules/providers/Microsoft.Network/virtualNetworks/spacelift-test-vnet1/subnets/GatewaySubnet"
+  public_ip_address_id  = "/subscriptions/d473e918-7273-4745-9214-3f7b999863a3/resourceGroups/spacelift-test-modules/providers/Microsoft.Network/publicIPAddresses/spacelift-publicip"
 }
 
 # // virtual network gateway specific
