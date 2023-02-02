@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "rg" {
 
 # // storage account
 module "storage_account" {
-  source                        = "../"
+  source                         = "../"
   name                          = "spaceliftaccount32131"
   location                      = azurerm_resource_group.rg.location
   resource_group_name           = azurerm_resource_group.rg.name
