@@ -1,35 +1,5 @@
 # Shared modules - root space only
 
-module "route_table" {
-  source               = "./modules/module"
-  name                 = "terraform-azurerm-route_table"
-  space_id             = data.spacelift_space.root.id
-  branch               = "main"
-  description          = "Azure Route Table"
-  repository           = "terraform-azurerm-network"
-  project_root         = "modules/route_table"
-  namespace            = "tpeterson66"
-  azure_integration_id = data.spacelift_azure_integration.module.id
-  write_permission     = true
-  read_permission      = true
-  azure_subscription   = var.module_subscription_id
-}
-
-module "static_site" {
-  source               = "./modules/module"
-  name                 = "terraform-azurerm-static_site"
-  space_id             = data.spacelift_space.root.id
-  branch               = "main"
-  description          = "Azure Static Site"
-  repository           = "terraform-azurerm-network"
-  project_root         = "modules/static_site"
-  namespace            = "tpeterson66"
-  azure_integration_id = data.spacelift_azure_integration.module.id
-  write_permission     = true
-  read_permission      = true
-  azure_subscription   = var.module_subscription_id
-}
-
 module "application_gateway" {
   source               = "./modules/module"
   name                 = "terraform-azurerm-application_gateway"
@@ -353,6 +323,186 @@ module "private_link" {
   description          = "Azure Private Link"
   repository           = "terraform-azurerm-network"
   project_root         = "modules/private_link"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "redis_cache" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-redis_cache"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Redis Cache"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/redis_cache"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "route" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-route"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Route"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/route"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "route_table" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-route_table"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Route Table"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/route_table"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "service_plan" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-service_plan"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Service Plan"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/service_plan"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "static_site" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-static_site"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Static Site"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/static_site"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "storage_account" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-storage_account"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Storage Account"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/storage_account"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "subnet" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-subnet"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Subnet"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/subnet"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "virtual_network" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-virtual_network"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Virtual Network"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/virtual_network"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "virtual_network_gateway" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-virtual_network_gateway"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Virtual Network Gateway"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/virtual_network_gateway"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "vnet_peering" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-vnet_peering"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Vnet Peering"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/vnet_peering"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "web_app_linux" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-web_app_linux"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Web App Linux"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/web_app_linux"
+  namespace            = "tpeterson66"
+  azure_integration_id = data.spacelift_azure_integration.module.id
+  write_permission     = true
+  read_permission      = true
+  azure_subscription   = var.module_subscription_id
+}
+
+module "web_app_windows" {
+  source               = "./modules/module"
+  name                 = "terraform-azurerm-web_app_windows"
+  space_id             = data.spacelift_space.root.id
+  branch               = "main"
+  description          = "Azure Web App Windows"
+  repository           = "terraform-azurerm-network"
+  project_root         = "modules/web_app_windows"
   namespace            = "tpeterson66"
   azure_integration_id = data.spacelift_azure_integration.module.id
   write_permission     = true
