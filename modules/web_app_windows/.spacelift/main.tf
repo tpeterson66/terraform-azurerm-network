@@ -21,8 +21,8 @@ module "windows_web_app" {
     owner       = "spacelift"
   }
   header_frontdoor_id = "f4217b30-81df-414c-ab42-eb9591c8e6dd"
-  firewall_ip = "10.0.0.0"
-  app_command_line = "start"
+  firewall_ip         = "10.0.0.0"
+  app_command_line    = "start"
 }
 
 // Windows web app with custom values
@@ -38,8 +38,8 @@ module "windows_web_app_custom" {
     owner       = "spacelift"
   }
   header_frontdoor_id = "f4217b30-81df-414c-ab42-eb9591c8e6dd"
-  firewall_ip = "10.0.0.0"
-  app_command_line = "start"
+  firewall_ip         = "10.0.0.0"
+  app_command_line    = "start"
   app_settings = {
     APPINSIGHTS_PROFILERFEATURE_VERSION             = "1.0.0"
     APPINSIGHTS_SNAPSHOTFEATURE_VERSION             = "1.0.0"
@@ -52,5 +52,5 @@ module "windows_web_app_custom" {
     XDT_MicrosoftApplicationInsights_NodeJS         = "1"
     XDT_MicrosoftApplicationInsights_PreemptSdk     = "disabled"
   }
-  connection_strings = [{name = "testconnectionstring", type = "SQLAzure", value ="test"}  ]
+  connection_strings = [{ name = "testconnectionstring", type = "SQLAzure", value = "test" }]
 }
