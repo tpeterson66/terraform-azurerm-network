@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 // resource group
 resource "azurerm_resource_group" "rg" {
-  name     = "spacelift-test-route"
+  name     = "spacelift-test-lb"
   location = "EastUS"
 }
 
