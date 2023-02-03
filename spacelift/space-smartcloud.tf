@@ -21,6 +21,7 @@ resource "spacelift_stack" "smartcloud_dev" {
   terraform_version = "1.3.7"
   labels = [ "infracost" ]
   space_id = spacelift_space.smartcloud.id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 resource "spacelift_azure_integration_attachment" "smartcloud_dev" {
@@ -46,6 +47,7 @@ resource "spacelift_stack" "azure_designer" {
   terraform_version = "1.3.7"
   labels = [ "infracost" ]
   space_id = spacelift_space.smartcloud.id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 resource "spacelift_azure_integration_attachment" "azure_designer" {
@@ -72,6 +74,7 @@ resource "spacelift_stack" "spacelift_private_worker" {
   terraform_version = "1.3.7"
   labels = [ "infracost" ]
   space_id = spacelift_space.smartcloud.id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 resource "spacelift_azure_integration_attachment" "spacelift_private_worker" {

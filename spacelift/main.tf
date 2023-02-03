@@ -49,3 +49,7 @@ data "spacelift_azure_integration" "smartcloud" {
   integration_id = var.smartcloud_integration_id
 }
 
+# Worker Pool
+data "spacelift_worker_pool" "smartcloud" {
+  worker_pool_id = "01GR9T5VM4NKEM1ETXZWW8T84J"
+}
