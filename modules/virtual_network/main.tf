@@ -31,10 +31,12 @@ variable "tags" {
   type        = map(string)
   description = "A map of the tags to use on the resources that are deployed with this module."
 }
-variable "ddos_id" {
-  type        = string
-  description = "The ID of the DDoS Protection Plan"
-}
+# removed - WIP
+# variable "ddos_id" {
+#   type        = string
+#   description = "The ID of the DDoS Protection Plan"
+#   default = null
+# }
 variable "settings" {
   type = list(object({
     dns_servers = list(string)
@@ -54,14 +56,15 @@ resource "azurerm_virtual_network" "this" {
   address_space       = var.address_space
   tags                = var.tags
 
-  dynamic "ddos_protection_plan" {
-    for_each = var.ddos_id != "" ? [1] : []
+# removed - WIP
+  # dynamic "ddos_protection_plan" {
+  #   for_each = var.ddos_id != "" ? [1] : []
 
-    content {
-      id     = var.ddos_id
-      enable = true
-    }
-  }
+  #   content {
+  #     id     = var.ddos_id
+  #     enable = true
+  #   }
+  # }
 
   lifecycle {
     ignore_changes = [name]

@@ -62,6 +62,11 @@ variable "read_permission" {
   description = "Does the module integration require write permissions"
 }
 
+variable "worker_pool_id" {
+  type = string
+  description = "Worker pool id"
+}
+
 resource "spacelift_module" "this" {
   name           = var.name
   space_id       = var.space_id
@@ -70,6 +75,7 @@ resource "spacelift_module" "this" {
   description    = var.description
   repository     = var.repository
   project_root   = var.project_root
+  worker_pool_id = var.worker_pool_id
   github_enterprise {
     namespace = var.namespace
   }
