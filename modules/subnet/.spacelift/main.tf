@@ -17,7 +17,7 @@ module "subnet" {
   service_endpoints                             = ["Microsoft.Storage"]
   private_endpoint_network_policies_enabled     = false
   private_link_service_network_policies_enabled = false
-  settings = []
+  settings                                      = []
 }
 
 # // subnet
@@ -30,12 +30,12 @@ module "subnet_specific" {
   service_endpoints                             = ["Microsoft.Storage"]
   private_endpoint_network_policies_enabled     = false
   private_link_service_network_policies_enabled = false
-  settings = [{ 
+  settings = [{
     delegation = {
       delegation1 = {
-        "name" = "test"
+        "name"               = "test"
         "service_delegation" = "Microsoft.ContainerInstance/containerGroups"
-        "actions" = ["Microsoft.Network/virtualNetworks/subnets/join/action","Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
+        "actions"            = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
       }
     }
   }]

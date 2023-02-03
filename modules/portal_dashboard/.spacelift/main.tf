@@ -9,9 +9,9 @@ resource "azurerm_resource_group" "rg" {
 
 # // portal dashboard
 module "portal_dashboard" {
-  source                       = "../"
-  resource_group_name          = azurerm_resource_group.rg.name
-  location                     = azurerm_resource_group.rg.location
+  source              = "../"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
   tags = {
     environment = "module-testing"
     retention   = "DeleteAtWill"

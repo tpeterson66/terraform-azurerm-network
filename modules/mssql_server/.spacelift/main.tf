@@ -10,7 +10,7 @@ module "mssql_server" {
   resource_group_name          = "spacelift-test-modules"
   administrator_login          = "AddYourLogin"
   administrator_login_password = "AddYourPw"
-  mssql_server_version        = "12.0" 
+  mssql_server_version         = "12.0"
 
   tags = {
     environment = "module-testing"
