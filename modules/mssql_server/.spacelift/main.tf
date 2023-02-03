@@ -14,7 +14,7 @@ module "mssql_server" {
   location                     = azurerm_resource_group.rg.location
   resource_group_name          = azurerm_resource_group.rg.name
   administrator_login          = "AddYourLogin"
-  administrator_login_password = "AddYourPw"
+  administrator_login_password = "AddYourPw123123!!"
   mssql_server_version         = "12.0"
 
   tags = {
