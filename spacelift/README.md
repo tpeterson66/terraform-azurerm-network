@@ -4,7 +4,7 @@ This is the directory used to manage spacelift using IaC. Here is a brief summar
 
 ## Spaces
 
-Spaces are organziation units within the app allowing for logical and functional separation. The following spaces are deployed to support our implementation of Spacelift.
+Spaces are organization units within the app allowing for logical and functional separation. The following spaces are deployed to support our implementation of Spacelift.
 
 The root space, which is a default space which really shouldn't be used but for things the entire platform should have access too. This would include shared modules, policies, contexts, etc. but only items which should be shared across all other spaces and stacks.
 
