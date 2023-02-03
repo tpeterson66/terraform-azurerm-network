@@ -9,10 +9,10 @@ resource "azurerm_resource_group" "rg" {
 
 # // network security group
 module "network_security_group" {
-  source                       = "../"
-  name                         = "spacelift-nsg"
-  location                     = azurerm_resource_group.rg.location
-  resource_group_name          = azurerm_resource_group.rg.name
+  source              = "../"
+  name                = "spacelift-nsg"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   tags = {
     environment = "module-testing"
@@ -23,10 +23,10 @@ module "network_security_group" {
 
 # // network security group specific
 module "network_security_group_specific" {
-  source                       = "../"
-  name                         = "spacelift-nsg-specific"
-  location                     = azurerm_resource_group.rg.location
-  resource_group_name          = azurerm_resource_group.rg.name
+  source              = "../"
+  name                = "spacelift-nsg-specific"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   tags = {
     environment = "module-testing"
