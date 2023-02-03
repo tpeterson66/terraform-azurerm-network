@@ -55,3 +55,29 @@ resource "spacelift_azure_integration_attachment" "azure_designer" {
   read            = true
   subscription_id = "c759eb32-e9c8-4e19-9f2f-d036cf250f5c"
 }
+
+
+## Spacelift Private Worker Pool
+resource "spacelift_stack" "spacelift_private_worker" {
+  github_enterprise {
+    namespace = "tpeterson66" # The GitHub organization / user the repository belongs to
+  }
+  administrative    = false
+  autodeploy        = true
+  branch            = "main"
+  description       = "SmartCloud Spacelift Private Worker"
+  name              = "SmartCloud Spacelift Private Worker"
+  project_root      = "smartcloud/private-worker-pool"
+  repository        = "terraform-azurerm-network"
+  terraform_version = "1.3.7"
+  labels = [ "infracost" ]
+  space_id = spacelift_space.smartcloud.id
+}
+
+resource "spacelift_azure_integration_attachment" "spacelift_private_worker" {
+  integration_id  = data.spacelift_azure_integration.smartcloud.id
+  stack_id        = spacelift_stack.spacelift_private_worker.id
+  write           = true
+  read            = true
+  subscription_id = "c759eb32-e9c8-4e19-9f2f-d036cf250f5c"
+}
