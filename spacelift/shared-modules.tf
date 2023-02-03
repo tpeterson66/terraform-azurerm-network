@@ -13,6 +13,7 @@ module "application_gateway" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "application_insights_workbook" {
@@ -28,6 +29,7 @@ module "application_insights_workbook" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "availability_set" {
@@ -43,6 +45,7 @@ module "availability_set" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "bastion" {
@@ -58,6 +61,7 @@ module "bastion" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "container_group" {
@@ -73,6 +77,7 @@ module "container_group" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "express_route_circuit" {
@@ -88,6 +93,7 @@ module "express_route_circuit" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "function_app_linux" {
@@ -103,6 +109,7 @@ module "function_app_linux" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "function_app_windows" {
@@ -118,6 +125,7 @@ module "function_app_windows" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "load_balancer" {
@@ -133,6 +141,7 @@ module "load_balancer" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "load_balancer_gateway" {
@@ -148,6 +157,7 @@ module "load_balancer_gateway" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "load_balancer_internal" {
@@ -163,6 +173,7 @@ module "load_balancer_internal" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "monitor_action_group" {
@@ -178,6 +189,7 @@ module "monitor_action_group" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "monitor_diagnostic_setting" {
@@ -193,6 +205,7 @@ module "monitor_diagnostic_setting" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "monitor_metric_alert" {
@@ -208,6 +221,7 @@ module "monitor_metric_alert" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "mssql_database" {
@@ -223,6 +237,7 @@ module "mssql_database" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "mssql_server" {
@@ -238,6 +253,7 @@ module "mssql_server" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "nat_gateway" {
@@ -253,6 +269,7 @@ module "nat_gateway" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "network_security_group" {
@@ -268,6 +285,7 @@ module "network_security_group" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "network_security_rule" {
@@ -283,6 +301,7 @@ module "network_security_rule" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "portal_dashboard" {
@@ -298,6 +317,7 @@ module "portal_dashboard" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "private_endpoint" {
@@ -313,6 +333,7 @@ module "private_endpoint" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "private_link" {
@@ -328,6 +349,7 @@ module "private_link" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "redis_cache" {
@@ -343,6 +365,7 @@ module "redis_cache" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "route" {
@@ -358,6 +381,7 @@ module "route" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "route_table" {
@@ -373,6 +397,7 @@ module "route_table" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "service_plan" {
@@ -388,6 +413,7 @@ module "service_plan" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "static_site" {
@@ -403,6 +429,7 @@ module "static_site" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "storage_account" {
@@ -418,6 +445,7 @@ module "storage_account" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "subnet" {
@@ -433,6 +461,7 @@ module "subnet" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "virtual_network" {
@@ -448,6 +477,7 @@ module "virtual_network" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "virtual_network_gateway" {
@@ -463,6 +493,7 @@ module "virtual_network_gateway" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "vnet_peering" {
@@ -478,6 +509,7 @@ module "vnet_peering" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "web_app_linux" {
@@ -493,6 +525,7 @@ module "web_app_linux" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
 
 module "web_app_windows" {
@@ -508,4 +541,5 @@ module "web_app_windows" {
   write_permission     = true
   read_permission      = true
   azure_subscription   = var.module_subscription_id
+  worker_pool_id = data.spacelift_worker_pool.smartcloud.id
 }
