@@ -22,7 +22,6 @@ module "routes" {
 module "routes_virtualappliance" {
   source                 = "../"
   name                   = "spacelift-testroute1"
-
   resource_group_name    = azurerm_resource_group.rg.name
   route_table_name       = "spacelift-testroute"
   address_prefix         = "4.5.6.7/32"
