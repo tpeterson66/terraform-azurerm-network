@@ -34,6 +34,7 @@ variable "tags" {
 variable "ddos_id" {
   type        = string
   description = "The ID of the DDoS Protection Plan"
+  default = null
 }
 variable "settings" {
   type = list(object({
