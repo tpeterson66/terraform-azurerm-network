@@ -1,11 +1,11 @@
 # Resource group
 resource "azurerm_resource_group" "rg" {
   name     = "spacelift-private-worker-pool"
-  location = "centralus"
+  location = "eastus"
   tags = {
     owner = "Tom Peterson"
     purpose = "Spacelift Private Worker Pool for Smartcloud"
-    budget = "$40"
+    budget = "$60"
   }
 }
 
