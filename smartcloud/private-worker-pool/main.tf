@@ -101,6 +101,6 @@ resource "azurerm_network_security_group" "worker_pool" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "worker_pool" {
-  subnet_id                 = azurerm_subnet.worker_pool
+  subnet_id                 = azurerm_subnet.worker_pool.id
   network_security_group_id = azurerm_network_security_group.worker_pool.id
 }
