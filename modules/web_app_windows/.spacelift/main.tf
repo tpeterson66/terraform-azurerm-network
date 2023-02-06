@@ -8,13 +8,28 @@ resource "azurerm_resource_group" "rg" {
   location = "EastUS"
 }
 
+// service plan
+module "service_plan" {
+  source              = "../../service_plan"
+  name                = "spacelift-serviceplan"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  os_type             = "Windows"
+  sku_name            = "B1"
+  tags = {
+    environment = "module-testing"
+    retention   = "DeleteAtWill"
+    owner       = "spacelift"
+  }
+}
+
 // Windows web app with default values
 module "windows_web_app" {
   source              = "../"
   name                = "spacelift-windows-web-app"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  service_plan_id     = "/subscriptions/d473e918-7273-4745-9214-3f7b999863a3/resourceGroups/spacelift-test-serviceplan/providers/Microsoft.Web/serverfarms/spacelift-serviceplan"
+  service_plan_id     = module.service_plan.id
   tags = {
     environment = "module-testing"
     retention   = "DeleteAtWill"
@@ -31,7 +46,7 @@ module "windows_web_app_custom" {
   name                = "spacelift-windows-web-app-custom"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  service_plan_id     = "/subscriptions/d473e918-7273-4745-9214-3f7b999863a3/resourceGroups/spacelift-test-serviceplan/providers/Microsoft.Web/serverfarms/spacelift-serviceplan"
+  service_plan_id     = module.service_plan.id
   tags = {
     environment = "module-testing"
     retention   = "DeleteAtWill"
