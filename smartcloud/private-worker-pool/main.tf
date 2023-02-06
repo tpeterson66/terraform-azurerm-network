@@ -57,7 +57,7 @@ resource "azurerm_linux_virtual_machine" "worker_pool" {
 
   admin_ssh_key {
     username   = "coretekadmin"
-    public_key = file("./id_rsa.pub")
+    public_key = file("./spaceliftworkerpool.pub")
   }
 
   os_disk {
