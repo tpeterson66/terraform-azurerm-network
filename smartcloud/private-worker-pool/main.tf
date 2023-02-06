@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg" {
   tags = {
     owner   = "Tom Peterson"
     purpose = "Spacelift Private Worker Pool for Smartcloud"
-    budget  = "$60"
+    budget  = "$80"
   }
 }
 
