@@ -3,9 +3,9 @@ resource "azurerm_resource_group" "rg" {
   name     = "spacelift-private-worker-pool"
   location = "eastus"
   tags = {
-    owner = "Tom Peterson"
+    owner   = "Tom Peterson"
     purpose = "Spacelift Private Worker Pool for Smartcloud"
-    budget = "$60"
+    budget  = "$60"
   }
 }
 
@@ -24,6 +24,7 @@ module "terraform-azurerm-virtual_network" {
   # settings = list(object({  dns_servers = list(string)  }))
 }
 
+# subnet
 resource "azurerm_subnet" "worker_pool" {
   name                 = "WorkerPool"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -31,11 +32,13 @@ resource "azurerm_subnet" "worker_pool" {
   address_prefixes     = ["10.224.0.0/24"]
 }
 
+# NIC for VM
 resource "azurerm_network_interface" "nic" {
-  name                = "vm-spaceliftworkerpool"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  tags                = azurerm_resource_group.rg.tags
+  name                 = "vm-spaceliftworkerpool"
+  location             = azurerm_resource_group.rg.location
+  resource_group_name  = azurerm_resource_group.rg.name
+  tags                 = azurerm_resource_group.rg.tags
+  public_ip_address_id = azurerm_public_ip.worker_pool.id
 
   ip_configuration {
     name                          = "internal"
@@ -44,6 +47,7 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
+# VM
 resource "azurerm_linux_virtual_machine" "worker_pool" {
   name                = "spaceliftworkerpool"
   resource_group_name = azurerm_resource_group.rg.name
@@ -74,6 +78,7 @@ resource "azurerm_linux_virtual_machine" "worker_pool" {
   }
 }
 
+# Public IP
 resource "azurerm_public_ip" "worker_pool" {
   name                = "vm-spaceliftworkerpool"
   resource_group_name = azurerm_resource_group.rg.name
@@ -82,6 +87,7 @@ resource "azurerm_public_ip" "worker_pool" {
   tags                = azurerm_resource_group.rg.tags
 }
 
+# NSG
 resource "azurerm_network_security_group" "worker_pool" {
   name                = "vm-spaceliftworkerpool"
   location            = azurerm_resource_group.rg.location
@@ -101,6 +107,7 @@ resource "azurerm_network_security_group" "worker_pool" {
   }
 }
 
+# attach NSG to subnet
 resource "azurerm_subnet_network_security_group_association" "worker_pool" {
   subnet_id                 = azurerm_subnet.worker_pool.id
   network_security_group_id = azurerm_network_security_group.worker_pool.id
