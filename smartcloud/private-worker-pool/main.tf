@@ -61,6 +61,7 @@ resource "azurerm_linux_virtual_machine" "worker_pool" {
   }
 
   os_disk {
+    name                 = "vm-spaceliftworkerpool"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
