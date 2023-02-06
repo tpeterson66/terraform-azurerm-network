@@ -49,7 +49,7 @@ resource "azurerm_linux_virtual_machine" "worker_pool" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   tags                = azurerm_resource_group.rg.tags
-  size                = "Standard_F2"
+  size                = "Standard_D2s_v3"
   admin_username      = "coretekadmin"
   network_interface_ids = [
     azurerm_network_interface.nic.id,
