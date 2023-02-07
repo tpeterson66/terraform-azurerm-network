@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  spacelift:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: spacelift
+    environment:
+      - SPACELIFT_POOL_PRIVATE_KEY=$SPACELIFT_POOL_PRIVATE_KEY
+      - SPACELIFT_TOKEN=$SPACELIFT_TOKEN
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
