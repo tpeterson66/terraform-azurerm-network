@@ -11,4 +11,5 @@ services:
       - SPACELIFT_TOKEN=$SPACELIFT_TOKEN
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/spacelift:/opt/spacelift
     restart: unless-stopped
